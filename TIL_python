@@ -7,7 +7,7 @@
 
 ## @ Code
   ### Stack code
-```python
+```py
 stk = [10, 20, 30]  # stack 기존 값 생성
 print(f'기존 값 : {stk}')
 stk.append(40)  # stack에 40 추가
