@@ -72,3 +72,36 @@
     > 구성관리, 서비스 검색, 회로 차단기, 지능형 라우팅, 마이크로 플록시, 제어버스...
 * Spring Native
   - Spring Boot 프로젝트 네이티브 실행 파일로 컴파일 가능하게 지원
+## 일반적 자바 객체를 위한 POJO 지원
+* POJO란?
+  - 별도의 API 사용, 제한 없는 자바 클래스
+  - 특화된 인터페이스 반드시 구현 or 의존성 높은 클래스의 확장 따라야할 필요X
+  - 일반적 자바 언어, 필수 API 외에는 특정 구현 기술 종속X
+  - 데이터베이스나 서버 의존 없는 자바 클래스만으로 구성해도 프로그래밍 가능
+@ EJB
+```java
+import javax.ejb.EntityBean;
+
+pubilc class BookBean implements EntityBean {
+...
+}
+```
+@ Servlet
+```java
+import javax.servlet.http.HttpServlet;
+
+pubilc class BookController extends HttpServlet {
+...
+}
+```
+@ Spring POJO
+```java
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table
+pubilc class Book {
+...
+}
+```
