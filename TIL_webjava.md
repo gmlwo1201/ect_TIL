@@ -1,6 +1,3 @@
-# 필기용 Github
-
-
 # 웹자바프로그래밍응용
 ## Java
 1. Write Once, Run Anywhere
@@ -177,3 +174,48 @@ private MobilePhone mobilePhone;
 * 장점
   - 데이터베이스 연동 기술과 상관없이 같은 방식으로 트랜잭션 기능 활용 가능
   - 트랜잭션 서비스 종류, 환경 변해도 트랜잭션 사용 코드 그대로 유지하는 유연성 제공
+
+## 스프링 웹 MVC
+* 스프링 웹 MVC
+  - 스프링이 제공하는 웹 애플리케이션 개발 전용 프레임워크
+  - MVC(Model-View-Controller) 패턴 사용
+    - M V C 사이 의존 관계 스프링 컨테이너가 관리
+    - 스프링이 제공하는 많은 기능 확장하여 웹 애플리케이션 구축 가능
+* Front Controller
+  - 애플리케이션 흐름 관리
+  - Spring Framwork의 DispatcherServlet
+* Model
+  - 애플리케이션 데이터 들어있는 객체
+* Controller
+  - 애플리케이션 비즈니스 로직 포함하는 자바 클래스
+     - @Controller
+* View
+  - 모델 정보(데이터) 특정 형식에 맞게 표현
+  - JSP, Thymeleaf, Freemarker...
+ 
+## MVC 기본 구성 요소
+* DispatcherServlet
+  - 웹 > 요청 > 컨트롤러 / 컨트롤러 > 반환 값 > 뷰
+  - 사용자에게 보여줄 응답 생성하는 등 모든 절차(흐름) 담당
+* HandlerMapping
+  - 클라이언트 요청 URL 어떤 컨트롤러가 처리할지 결정
+* HandlerAdapter
+  - HandlerMapping에서 결정된 컨트롤러 호출
+* Controller
+  - 클라이언트 요청 처리, 결과 반환
+  - 응답 결과에서 보여줄 데이터 모델에 담아 뷰로 전달
+* ModelAndView
+  - 컨트롤러가 처리한 결과 정보, 뷰 선택에 필요한 정보 담는 객체
+* ViewResolver
+  - 컨트롤러 처리 결과 사용자에게 보여줄 뷰 결정
+* View
+  - 컨트롤러 처리 결과 화면 생성
+  - JSP 비롯한 다양한 뷰 템플릿 엔진 사용
+  - 클라이언트에 요청 처리 결과 전송
+ 
+* View Template Engine이란?
+  - 개발자가 템플릿 정의할 수 있는 소프트웨어 구성요소
+  - 템플릿은 동적 콘텐츠 위치 표시자가 있는 HTML or XML로 개발
+  - 형식과 구조가 정해진 동적 웹 페이지 생성
+ 
+* MVC 동작 흐름
