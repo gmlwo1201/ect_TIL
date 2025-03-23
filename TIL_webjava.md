@@ -219,3 +219,13 @@ private MobilePhone mobilePhone;
   - 형식과 구조가 정해진 동적 웹 페이지 생성
  
 * MVC 동작 흐름
+
+![Image](https://github.com/user-attachments/assets/3321a85c-e144-4f25-a39f-5c7ba717cad0)
+
+## Spring Web MVC 프로젝트
+* MVC 구조
+
+
+
+* 실행 과정
+  
