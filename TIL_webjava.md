@@ -222,10 +222,132 @@ private MobilePhone mobilePhone;
 
 ![Image](https://github.com/user-attachments/assets/3321a85c-e144-4f25-a39f-5c7ba717cad0)
 
-## Spring Web MVC 프로젝트
-* MVC 구조
+# Spring Web MVC 프로젝트
+## MVC 구조
 
+![Image](https://github.com/user-attachments/assets/34b1082a-f5a9-41e7-89c8-ed4f9ff571c8)
 
-
-* 실행 과정
+## 실행 과정
   
+![Image](https://github.com/user-attachments/assets/9b47ecad-2516-468b-b2cd-a06e1c86cc91)
+
+## 환경 설정 파일
+* web.xml
+  - 웹 프로젝트 배치 설명자/기술서(deployment desciptor)
+  - 웹 프로젝트 배포되는 데 이용되는 XML 형식 자바 웹 애플리케이션 환경 설정 담당
+  - Servlet 3.0 이상에서는 Annotation 대체 가능
+  - 웹 애플리케이션 설정 파일 문법검증을 위한 네임스페이스, 스키마 선언
+  ```java
+  <web-app metadata-complete="false" version="6.0"
+    xmlns="https://jakarta.ee/xml/ns/jakartaee" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
+    https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
+  ```
+## 스프링 컨텍스트 설정
+* 루트 컨텍스트 설정
+  - 스프링 애플리케이션 전체에서 공유 가능한 루트 컨텍스트 설정 파일 위치 지정
+    - 공통 빈(Service, Repository(DAO), DB, log 등) 설정
+    - 주로 View 지원 제외한 Bean 설정
+  - <context-param> 요소 이용해 설정 파일 위치 지정
+  ```java
+  ...
+  <context-param>
+  <param-name>contextConfigLocation</param-name>
+  <param-value>/WEB-INF/spring/root-context.xml</param-value>
+  </context-param>
+  <listener>
+  <listener-class>org.springframework.web.context.ContextLoaderListener</listenerclass>
+  </listener>
+  <servlet>
+  ...
+  ```
+* 서블릿 컨텍스트 설정
+  - DispatcherServlet이 모든 요청 받을 수 있도록 설정
+    - DispatcherServlet은 요청 URL 처리할 컨트롤러에 처리 위임
+    - <init-param> 요소로 설정 파일 위치 지정
+  - <servlet> 요소 이용해 설정
+  - <servlet-mapping> 요소 이용해 DispatcherServlet이 처리할 사용자 요청 URL 패턴 설정
+  ```java
+  <servlet>
+  <servlet-name>appServlet</servlet-name>
+  <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+  <init-param>
+  <param-name>contextConfigLocation</param-name>
+  <param-value>/WEB-INF/spring/servlet-context.xml</param-value>
+  </init-param>
+  <load-on-startup>1</load-on-startup>
+  /* 서블릿 로딩하는 순서 결정, 서블릿 여러 개일 때 로딩되는 순서 제어 */
+  </servlet>
+  <servlet-mapping>
+  <servlet-name>appServlet</servlet-name>
+  <url-pattern>/</url-pattern>
+  </servlet-mapping>
+  ```
+## MVC 환경 설정 파일
+* root-context.xml
+  - 뷰(JSP 웹페이지)와 관련 없는 Bean 객체 설정
+  - 서비스, 저장소, 데이터베이스, 로그 등 웹 애플리케이션 공유 자원을 위한 루트 컨텍스트 설정
+  - 다른 웹 컴포넌트와 공유하는 자원들 설정
+  - 뷰와 관련되지 않은 Service, Repository(DAO), DB등 객체 정의
+  - 공통 Bean 설정하며 주로 View 지원 제외한 Bean 객체 설정
+  ```java
+  <?xml version="1.0" encoding="UTF-8"?>
+  <beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+  https://www.springframework.org/schema/beans/spring-beans.xsd">
+  <!-- Root Context: defines shared resources visible to all other web components -->
+  </beans>
+  ```
+* servlet-context.xml
+  - 뷰(JSP 웹페이지)와 관련 있는 Bean 객체 설정
+  - 컨트롤러, MultipartResolver, Interceptor, URI와 관련된 설정
+  - 웹 요청을 직접 처리할 컨트롤러의 매핑 설정(HandlerMapping) 하거나 어떻게 처리할 지 설정(ViewResolver)
+## 컨트롤러 매핑 설정
+* 요청 URL 처리하는 컨트롤러 매핑 설정
+  - <annotation-driven> 요소
+    - @Controller, @RequestMapping 같은 어노테이션을 사용할 때 필요한 빈 객체들을 자동으로 등록
+    - 핸들러 매핑과 핸들러 어댑터의 빈 객체도 대신 등록됨
+  - RequestMappingHandlerMapping
+    - 웹 요청 URL과 컨트롤러 매핑시켜주는 핸들러 매핑 클래스
+    - 클라이언트의 요청 URL 어떤 컨트롤러가 처리할지를 결정
+  - RequestMappingHandlerAdapter
+    - 핸들러 매핑 클래스에 의해 결정된 컨트롤러 호출하는 핸들러 아댑터 클래스
+    - DispatcherServlet의 처리 요청 변환해서 컨트롤러에게 전달 > 컨트롤러의 응답 결과를
+DispatcherServlet이 요구하는 형식으로 변환
+## 자바 클래스 Bean 객체 설정
+* Spring MVC에서 사용할 Bean 객체 XML에 등록하지 않고 설정된 패키지 하위 경로의 모든 클래스 검색해 자동 등록
+  - <context:component-scan base-package="com.springmvc.*" /> or <beans:bean class="com.springmvc.controller.HomeController"/>
+  - @ 자동 감지 어노테이션
+    - @(Component, Repository, Service, Controller, RestController, ControllerAdvice, Configuration)
+  - @ 구성요소 클래스에서 자동 활성화하는 어노테이션
+    - @(Required, Autowired, PostConstruct, PreDestroy, Resource, 
+ PersistenceContext, PersistenceUnit)
+## 정적 리소스 설정
+* 정적 리소스
+  - 브라우저 요청 리소스가 이미 만들어져 있어 그대로 응답가능한 자원
+* 설정
+  - 정적 리소스(이미지, js, css)를 웹 브라우저에 효율적으로 전달하도록 최적하된 캐시 헤더와 함께 제공하기 위한 핸들러 구성
+  - Spring의 리소스 처리 통해 도달 가능한 모든 경로에서 리소스 제공
+  - <resources mapping="/resources/**" location="/resources/" />
+* resources 요소 속성
+  - mapping
+    - 웹 요청 URL 경로 패턴 설정
+    - 컨텍스트 경로 제외한 나머지 부분의 경로와 매핑
+  - location
+    - 웹 애플리케이션 내에서 실제 요청 경로 패턴에 해당하는 자원 위치 설정
+    - 위치가 여러 곳이면 쉼표로 구분
+  - cache-period
+    - 웹 브라우저에 캐시 시간 관련 응답 헤더 전송
+    - 초 단위로 캐시 시간 지정
+    - 값 = 0이면 웹 브라우저가 캐시하지 않고 값 설정하지 않으면 캐시 관련 응답 헤더 전송 X
+## 뷰 매핑 설정
+* 브라우저에 요청 결과를 전달할 View 관련 설정
+* 속성
+  - prefix
+    - View 위치 결정할 때 컨트롤러에서 반환한 View 이름 앞에 붙일 접두사
+  - suffix
+    - ... 접미사
+   
+
