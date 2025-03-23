@@ -349,5 +349,55 @@ DispatcherServlet이 요구하는 형식으로 변환
     - View 위치 결정할 때 컨트롤러에서 반환한 View 이름 앞에 붙일 접두사
   - suffix
     - ... 접미사
+  
+  ![Image](https://github.com/user-attachments/assets/177b22eb-8f31-4602-a8c4-cd52e7377c6b)
+
+## Maven 설정
+* Maven
+  - Java 프로젝트들 위한 빌드 자동화 도구
+  - 소프트웨어 종속성과 빌드 방법 관리
+  - 종속성 관리
+    - 프로젝트 내 사용할 라이브러리, 라이브러리가 참조하는 다른 라이브러리까지 프로젝트에서 참조할 수 있도록 지원
+    - 라이브러리는 네트워크를 통해 자동 다운로드
+  - 빌드 관리
+    - 프로젝트를 배포형식(jar, war)에 맞게 패키징
+    - 종속성 있는 라이브러리는 패키징 시 포함
+* pom.xml
+  - POM(Project Object Model)
+  - XML 형식으로 Maven 프로젝트에 관련된 내용 설정
+## Maven에서 Scope
+* 종속성 범위(Dependency scope)
+  - 종속성의 전이성 제한, 종속성이 클래스 경로에 포함되는 시점 결정
+* 종속성 범위 종류
+  - compile
+    - 기본 범위로 설정하지 않으면 적용
+    - 프로젝트의 모든 클래스 경로에서 사용 가능
+    - 종속 프로젝트로 전파됨
+  - provided
+    - 컴파일과 유사
+    - JDK or 컨테이너가 런타임에 종속성 제공
+    - 컴파일/테스트 단계에 클래스 경로에 추가되지만 런타임 단계에 추가 X
+  - runtime
+    - 컴파일에 필요없지만 실행에는 필요한 종속성 의미
+    - Maven은 런타임 및 테스트 클래스 경로에 이 범위가 있는 종속성 포함하지만 컴파일에는 포함 X
+  - test
+    - 테스트 컴파일 및 테스트 실행 단계에서만 사용 가능
+  - system
+    - provided와 유사하지만 명시적으로 포함된 JAR 제공해야 함
+    - 항상 사용 가능, Maven Repository에서 조회 X
+  - import
+    - <dependencyManagement> 섹션의 pom 유형의 종속성에서만 지원
+    - 종속성이 저장된 POM의 <dependencyManagement> 섹션에 있는 종속성 목록으로 대체
+## HomeController.java
+* @Controller
+  - 이 클래스가 Spring MVC에서 Controller 역할 담당한다는 것을 알려주는 어노테이션
+  - <component-scan>에 의해 Bean Container의 관리 대상이 됨
+* @RequestMapping
+  - 브라우저의 요청 URL과 메소드(클래스) 매핑하는 어노테이션
+  - 브라우저 요청에 포함된 다양한 정보로 매핑 가능
+  - 브라우저 요청 정보와 매핑하는 @RequestMapping 속성
+    - value(=path), method, params, headers, consumes, produces
+  - HTTP Method 유형에 따라 하위 어노테이션 사용 가능(권장)
+    - @PostMapping, @GetMapping, @PutMapping, @DeleteMapping
    
 
