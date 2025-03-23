@@ -78,7 +78,8 @@
   - 특화된 인터페이스 반드시 구현 or 의존성 높은 클래스의 확장 따라야할 필요X
   - 일반적 자바 언어, 필수 API 외에는 특정 구현 기술 종속X
   - 데이터베이스나 서버 의존 없는 자바 클래스만으로 구성해도 프로그래밍 가능
-<br>@ EJB
+
+@ EJB
 ```java
 import javax.ejb.EntityBean;
 
@@ -105,3 +106,74 @@ pubilc class Book {
 ...
 }
 ```
+* POJO 지원 장점
+  - 코드 단순화
+  - 개발 후 특정 데이터베이스, 서버 없어도 테스트 가능해 개발 속도 증가
+  - 프레임워크 규약, 규제 없어 자유롭게 객체지향 설계 가능
+
+## 객체 간 결합도 줄이는 의존성 주입(DI)
+* 의존성 주입(Dependency Injection)이란?
+  - 객체 간 관계 정리에 사용하는 기법
+  - 객체 or 구성 요소 사이의 의존 관계 직접 생성/제어 X
+  - 외부 빈(Bean) 설정 파일 or 어노테이션(Annotation) 활용해 스프링 컨테이너가 자동으로 연결해주는 방식
+
+* 기존 개발 방식
+```java
+public class Phone {
+  private MobilePhone mobilePhone;
+  public Phone() {
+    // 개발자가 직접 MobilePhoneImpl 객체 조립
+    MobilePhone = new MobilePhoneImpl();
+  }
+}
+```
+* 의존성 자동 주입
+```java
+// setter() 메소드 사용하는 경우
+public class Phone {
+  private MobilePhone mobilePhone;
+  setter() // 메소드의 매개변수로 객체 조립
+  public void setMobilePhone(MobilePhone mobilePhone) {
+    this.mobilePhone; = mobilePhone;
+  }
+}
+@Autowired 어노테이션 사용하는 경우
+public class Phone {
+@Autowired // 어노테이션 설정으로 객체 조립
+private MobilePhone mobilePhone;
+}
+<beans> 
+<bean id="mobilePhone" class="com.springmvc.MobilePhoneImpl">
+<bean id="phone" class="com.springmvc.Phone">
+<property name="mobilePhone" ref="mobilePhone"/>
+</bean>
+</beans> 
+```
+* 의존성 주입 장점
+  - 객체 간 의존 관계 직접 생성, 제어할 필요 X
+  - 설정 파일 통해서 스프링 컨테이너가 자동으로 객체 연결
+  - 코드 간단해지고 이해하기 쉬우며 테스트 용이
+  - 프로그래밍 설계 쉬워짐
+  - 이미 개발된 프로그램 변경 사항 적용하기 쉬워 확장성 매우 좋음
+  - 각 객체 간 의존 관계와 객체들 생명 주기 간편하게 개발하거나 유지보수 가능
+
+## 공통 모듈 재사용을 위한 AOP 지원
+* 관점 지향 프로그래밍(AOP)이란?
+  - 핵심적 기능에서 부가적인 공통 관심사 분리 > 공통 모듈로 만들어 설계, 개발하는 방법
+  - 반복적으로 나타나는 공통 관심사 분리하여 설계, 관리 가능
+* AOP 지원 장점
+  - 애플리케이션 전체에 사용되는 핵심 기능 소스코드와 분리하여 재사용 가능
+  - 개발자는 비즈니스 기능만 구현 > 개발 과정 간소화
+  - 공통 모듈을 각 독립된 모듈로 중복 없이 작성 가능
+  - 공통 모듈 XML 설정 파일에 설정 가능
+
+## 일관성 있는 모듈 트랜잭션 지원
+* 트랜잭션이란?
+  - 쪼갤 수 없는 최소 작업 단위
+  - 작업을 하나로 묶어 실행 시 하나라도 실패하면 모두 실패, 모두 성공하면 성공 처리
+* 스프링에서 지원하는 트랜잭션
+  - 데이터베이스 연동 기술, 트랜잭션 서비스 사이 종속성 제거
+  - 트랜잭션 처리 위한 일관된 방법 제공
+* 장점
+  - 데이터베이스 연동 기술과 상관없이 같은 방식으로 트랜잭션 기능 활용 가능
+  - 트랜잭션 서비스 종류, 환경 변해도 트랜잭션 사용 코드 그대로 유지하는 유연성 제공
