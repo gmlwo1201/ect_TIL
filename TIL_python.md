@@ -96,4 +96,47 @@ if __name__ == "__main__":
   - 단일 연결 리스트
   ![Image](https://github.com/user-attachments/assets/9ce6239c-1941-484c-82d6-16e96bac1f54)
 
+  - code
+  ```python
+  class SList:
+    class Node:
+        def __init__(self, item, link):
+            self.item = item
+            self.next = link
+
+    def __init__(self):
+        print("나는 SList의 Constructor 메서드")
+        self.head = None
+        self.size = 0
+
+    def isEmpty(self) :
+        return self.size == 0
+    
+    def insert_front(self, item):
+        if self.isEmpty():
+            self.head = self.Node(item, None)
+        else:
+            self.head = self.Node(item, self.head)
+        self.size += 1
+
+    def showList(self):
+        p = self.head
+        while p:
+            if p.next is not None:
+                print(p.item, "=> ", end="")
+            else:
+                print(p.item)
+            
+            p = p.next
+
+  if __name__ == "__main__":
+    s = SList()
+    s.insert_front("mango")
+    s.insert_front("apple")
+    s.insert_front("cherry")
+    s.showList()
+  
+  # 출력 결과 : cherry => apple => mango
+  ```
+
   
