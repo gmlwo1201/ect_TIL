@@ -80,6 +80,7 @@ if __name__ == "__main__":
   - 순차적 데이터 저장
   - 개념 쉽고 사용 편하지만 메모리 사용 효율성 낮음
   - 데이터 접근 빠름
+  
   ![Image](https://github.com/user-attachments/assets/039eb3fd-81fd-455d-9422-07648f3a28db)
 
 * 연결 리스트
@@ -90,4 +91,5 @@ if __name__ == "__main__":
   - 메모리 사용 효율성 높음
   - 데이터 접근 느림
   - 단일 연결 리스트/이중 연결 리스트/원형 연결 리스트
+  
   ![Image](https://github.com/user-attachments/assets/9ce6239c-1941-484c-82d6-16e96bac1f54)
