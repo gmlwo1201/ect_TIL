@@ -93,10 +93,10 @@ if __name__ == "__main__":
   - 데이터 접근 느림
   - 단일 연결 리스트/이중 연결 리스트/원형 연결 리스트
 
-  - 단일 연결 리스트
+  @ 단일 연결 리스트
   ![Image](https://github.com/user-attachments/assets/9ce6239c-1941-484c-82d6-16e96bac1f54)
 
-  - code
+  @ code
   ```python
   class SList:
     class Node:
@@ -111,12 +111,18 @@ if __name__ == "__main__":
 
     def isEmpty(self) :
         return self.size == 0
-    
+
+    # 리스트 앞에 추가
     def insert_front(self, item):
         if self.isEmpty():
             self.head = self.Node(item, None)
         else:
             self.head = self.Node(item, self.head)
+        self.size += 1
+
+    # 리스트 뒤에 추가
+    def insert_after(self, item, p):
+        p.next = self.Node(item, p.next)
         self.size += 1
 
     def showList(self):
@@ -133,10 +139,10 @@ if __name__ == "__main__":
     s = SList()
     s.insert_front("mango")
     s.insert_front("apple")
-    s.insert_front("cherry")
+    s.insert_after("cherry", s.head.next)
     s.showList()
-  
-  # 출력 결과 : cherry => apple => mango
+
+  # 출력 결과 : apple => mango => cherry
   ```
 
   
