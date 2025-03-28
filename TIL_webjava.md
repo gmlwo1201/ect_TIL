@@ -457,3 +457,36 @@ DispatcherServlet이 요구하는 형식으로 변환
   - 뷰 - book.jsp
     - 브라우저 요청 결과를 출력하는 JSP 웹페이지
     - 자바 서버 페이지 표준 태그 라이브러리(JSTL)를 적용해 웹 페이지 표현
+
+## 로깅 기능 설정
+* Log4j
+  - 산업용 Java 로깅 프레임워크
+  - API, 구현 및 다양한 사용 사례에 대한 배초 지원하는 요소로 구성
+  - Apache Software Foundation에서 관리하는 프로젝트
+  - 자원 봉사팀에 의해 적극적 유지 관리되고 대규모 커뮤니티 지원 받음
+* Slf4j (Simple Logging Facade for Java)
+  - 다양한 로깅 프레임워크(java.util.logging, logback, log4j)에 대한 간단한 퍼사드/추상화 역할 제공
+  - 최종 사용자가 배포 시점에 원하는 로깅 프레임워크 플러그인 할 수 있도록 지원
+  - 스프링에서 기본 로깅 API로 사용
+ 
+## 데이터베이스
+* H2 데이터베이스
+  - Java로 개발된 관계형 데이터베이스 관리 시스템(RDBMS)
+  * 특징
+    - 매우 빠름
+    - JDBC API 지원
+    - 오픈소스 소프트웨어
+    - 내장 DB, 서버 모드, in-memory 데이터베이스 지원
+    - 브라우저 기반 Console 제공
+    - 2.5MB 규모 작은 사이즈
+    - **표준 SQL의 일부만 지원**
+    - 개발환경이나 임베디드 애플리케이션, 휘발성 데이터 관리하는 애플리케이션 등에서 많이 사용
+  - 유사한 데이터베이스 : Apache Derby
+* Spring JDBC
+  - JDBC 추상화 제공하는 Spring Framework 모듈
+  * Spring JDBC에서 Spring, 개발자 역할
+    ![Image](https://github.com/user-attachments/assets/8e2550d4-194c-4076-ba45-92bf8c2934e2)
+
+*  H2 데이터베이스 및 spring-jdbc 종속성 추가
+  - h2 : H2 Database Engine
+  - spring-jdbc : JDBC를 사용하고 데이터베이스 공급업체별 오류코드를 구문 분석하기위한 코드를 단순화하는 추상화 계층 제공하는 Spring Module
