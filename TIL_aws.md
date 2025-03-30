@@ -83,4 +83,40 @@
   - 원하는 대로 사설망 구축 가능
   - 리전 단위
   - 구조 : AWS Cloud > Amazon VPC
+ 
+* VPC 구성요소
+  - subnet: VPC를 특정 범위로 나눈 범위
+  - RouteTable: 네트워크 트래픽을 전달할 위치가 명시된 규칙 집합 테이블
+  - Internet GW: VPC 리소스에서의 인터넷 통신을 활성화 하기 위한 게이트웨이
+  - Nat GW: 네트워크 주소 변환을 통해 private subnet 에서 인터넷 통신을 연결하는 게이트웨이
+  - VPC endpoint: Nat, IGW 등을 통하지 않고 AWS의 서비스를 비공개로 연결 가능하게 하는 서비스
+ 
+## IAM (Identity and Access Management)
+* AWS 리소스에 대한 접근을 안전하게 제어하는 서비스
+* 누가(AWS 사용자)가 어떤 AWS 서비스에 어떤 권한으로 접근할 수 있는지를 관리하는 역할
+* IAM 요소
+  - 사용자(User) → AWS 리소스에 접근하는 개별 계정
+  - 그룹(Group) → 여러 사용자에게 동일한 권한을 부여할 수 있는 그룹
+  - 역할(Role) → 특정 권한을 임시적으로 부여하는 역할 (AWS 서비스 간 권한 위임 가능)
+  - 정책(Policy) → JSON 형식으로 작성된 접근 권한 규칙
+  - MFA(Multi-Factor Authentication) → 다중 인증으로 보안 강화
+* 주요 기능
+  - AWS 리소스 접근 제어
+    - IAM을 사용하여 AWS 서비스와 리소스에 대한 접근을 세밀하게 관리할 수 있음
+    - 특정 사용자나 그룹에게 EC2, S3, RDS 등 개별 서비스에 대한 권한을 부여 가능
+  - 정책(Policy) 기반 접근 관리
+    - JSON 형식의 Policy 문서를 사용하여 세부적인 접근 권한 설정
+  - IAM 역할(Role) 및 서비스 연동
+    - EC2, Lambda, RDS 등의 AWS 서비스에 특정 권한을 부여 가능
+    - ex) EC2 인스턴스가 S3 버킷 데이터 읽을 수 있도록 IAM 역할 부여 가능
+  - MFA(다중 인증) 적용 가능
+    - IAM 사용자 로그인 시 OTP 등 추가 인증 단계(MFA)를 설정하여 보안 강화
+  - AWS 루트 계정 보호
+    - AWS 계정을 생성하면 root user가 생성됨, 모든 권한을 가짐
+    - 보안 강화를 위해 루트 계정 대신 IAM 사용자를 생성하여 사용하고, 루트 계정의  MFA 활성화 권장
+* 주의할 점
+  - 루트 계정(root user)은 최소한으로 사용
+  - 최소 권한 원칙(Least Privilige Principle) 준수 → 꼭 필요한 권한만 부여
+  - IAM 액세스 키(access key) 노출 금지 → GitHub 등 코드 저장소에 올리지 않기
+  - IAM 정책을 잘못 설정하면 보안 사고 발생 가능 → 사용자별 최소 권한 유지
   
