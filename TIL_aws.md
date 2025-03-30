@@ -47,3 +47,12 @@
     - 각 계정별로 AZ 코드와 실제 위치 다름
       - 계정 dev1의 AZ-A와 계정 dev2의 AZ-A와 다른 위치(랜덤)
       - 보안 이슈, 한 AZ로 몰림 현상 방지
+  - AWS 구조
+
+## 엣지로케이션 (Edge location)
+* AWS의 CloudFront(CDN) 등의 여러 서비스들을 가장 빠른 속도로 제공(캐싱)하기 위한 거점
+* Global Accelerator와 유저를 연결하는 거점
+  - 출장소 같은 개념보안 이슈, 한 AZ로 몰림 현상 방지
+* 전 세계 여러장소에 흩어져 있음
+* CDN (Contents Delivery Network): 컨텐츠를 보다 빠르게 전송하는 기술
+  - ex) 미국에 있는 넷플릭스 한국에서 볼 때, 아프리카에 있는 트위치 한국에서 볼 때
