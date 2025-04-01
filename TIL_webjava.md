@@ -490,3 +490,49 @@ DispatcherServlet이 요구하는 형식으로 변환
 *  H2 데이터베이스 및 spring-jdbc 종속성 추가
   - h2 : H2 Database Engine
   - spring-jdbc : JDBC를 사용하고 데이터베이스 공급업체별 오류코드를 구문 분석하기위한 코드를 단순화하는 추상화 계층 제공하는 Spring Module
+  - 
+
+
+## 컨트롤러
+* 컨트롤러
+  - 웹 브라우저에서 요청한 사용자 요청을 구현된 메소드에서 처리하고 그 결과를 뷰에 전달하는 스프링의 Bean 클래스
+* 구현 과정
+  - 도서 쇼핑몰에서 전체 도서 목록 가져와 웹 브라우저 출력하는 BookController 구현과정
+    - 컨트롤러 정의 > 요청 경로 매핑 > 요청처리 메소드 구현 > 뷰[& 모델] 반환
+   
+## 컨트롤러 정의
+* @Controller 이용한 컨트롤러 정의
+  - MVC 패턴에서 Controller 역할 담당하는 클래스
+  - @Controller 어노테이션 선언된 Java 클래스
+  - 웹 브라우저에서 들어온 요청 처리하는 메소드 포함하고 있는 Java 클래스
+## <context:component-scan> 요소로 컨트롤 등록
+* 스프링 MVC 설정 파일(servlet-context.xml)에 빈 클래스로 등록
+  - @Controller 가 선언된 컨트롤러 빈으로 자동 들록
+  - 자동 의존성 관리
+  - <context:component-scan> 요소 이용
+    - <context:component-scan base-package="기본 패키지 명"/>
+    - 자동으로 감지하여 빈으로 관리하는 타입
+      - @(Component, Repository, Service, Controller, RestController, ControllerAdvice, Configuration)
+    - 감지된 클래스에서 자동으로 활성화하는 어노테이션
+      - @(Required, Autowired, PostConstruct, PreDestroy, Resource, PersistenceContext, PersistenceUnit)
+* BookController.java에서 컨트롤러 생성
+  - 컨트롤러 정의 > 요청 경로 매핑 > 요청처리 메소드 구현 > 뷰[& 모델] 반환
+ 
+## 요청 경로 매핑
+* RequestMapping
+  - 웹에서 들어온 사용자 요청을 처리하는 컨트롤러와 메소드를 매핑
+  - 클래스 및 메소드에 지정할 수 있음
+  - @RequestMapping(value="웹 요청 URL", method=RequestMethod.HTTP 요청 형식, ...])
+  > value - String - 기본 매핑 경로 이름
+  > method - RequestMethod - 매핑할 HTTP 요청 방식(GET, POST, HEAD, OPTIONS, PUT, DELETE, TRACE)
+  > headers - String - 매핑된 요청의 헤더
+  > name - String - 해당 매핑에 이름 지정
+  > params - String - 매핑된 요청 매개변수
+  > path - String - 서블릿 환경에서 경로 매핑 URL
+  > consumes - String - 매핑된 요청의 소비 가능한 미디어 유형
+  > produces - String - .. 생산 가능한 ..
+
+## 컨트롤러에 @RequestMapping 적용
+* 클래스 수준의 @RequestMapping
+  - 웹에서 사용자가 요청한 URL에 매핑되는 컨트롤러에 선언
+  - 기본 매핑 경로를 설정하지 않은 @RequestMapping만 선언된 요청 처리 메소드가 있을 수 있음
