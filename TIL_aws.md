@@ -191,3 +191,11 @@
 * 언제, 어디서 누가, 무엇을, 어떻게 할 수 있는지 정의
 * ex) arn:aws:s3:::my-bucket/images/* > 해당 경로에 있는 모든 객체 대상으로 권한 설정
 * 익명 사용자 또는 다른 계정에 대한 권한 부여도 가능
+```json
+{
+"Effect": "Allow",
+"Principal": "*",
+"Action": "s3:GetObject",
+"Resource": "arn:aws:s3:::demo.rwlecture.com/*"
+}
+```
