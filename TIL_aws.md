@@ -119,8 +119,24 @@
   - 최소 권한 원칙(Least Privilige Principle) 준수 → 꼭 필요한 권한만 부여
   - IAM 액세스 키(access key) 노출 금지 → GitHub 등 코드 저장소에 올리지 않기
   - IAM 정책을 잘못 설정하면 보안 사고 발생 가능 → 사용자별 최소 권한 유지
-  
+**********
+# EC2
+* 가상서버를 제공하는 AWS 서비스
+* 인스턴스: EC2에서 생성한 개별 가상 서버
 
+## 인스턴스 수명 주기
+
+![image](https://github.com/user-attachments/assets/776b0402-64ca-4c88-9821-543526ae1697)
+
+## PEM, PPK
+* PEM (.pem)
+  - PEM (Privacy-Enhanced Mail) 형식으로 저장된 키 파일
+  - Linux, MacOS에서 기본적으로 지원
+  - ssh 명령어로 쉽게 사용 가능
+* PPK (.ppk)
+  - PPK (PuTTY Private Key) 형식으로 저장된 키 파일
+  - Windows에서 많이 사용하는 SSH 클라이언트인 PuTTY에서 사용
+**********
 # S3
 - AWS에서 EC2 서비스와 더불어 가장 오래되고 기본이 되는 객체 스토리지 서비스
 - Amazon S3 는 확장성, 내구성, 보안성 뛰어남
