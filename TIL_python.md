@@ -285,3 +285,15 @@ if __name__ == "__main__":
 
   ![image](https://github.com/user-attachments/assets/b5a61fd5-cb36-4487-bd74-1b9332f042f9)
 
+  * 트리구조 DSF ![image](https://github.com/user-attachments/assets/0adca823-0b8c-4563-b45b-b42e800ba2be)
+
+* 너비 우선 순회(BSF:Breadth First Search)
+  - 시작 노드를 정하고 인접한 노드 모두 방문
+  - 시작 노드와 가까운 노드부터 방문하고 멀리 떨어진 노드는 나중에 방문
+
+  ![image](https://github.com/user-attachments/assets/6c1ca4d1-b6a0-40d8-b901-ab4e1f8ec45a)
+
+  ![image](https://github.com/user-attachments/assets/2ea2be7b-ae6c-4e03-85ed-3673bda7e44a)
+
+  * 트리 구조 BSF ![image](https://github.com/user-attachments/assets/41f59e26-aff3-4830-b5cc-d449ad35d8b2)
+
