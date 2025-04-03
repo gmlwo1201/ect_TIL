@@ -273,8 +273,15 @@ if __name__ == "__main__":
 ## 그래프 순회
   - 그래프 또는 트리 같은 연결 구조에서 모든 정점(노드)을 순차적으로 탐색
   - 목적 : 특정 노드 탐색
-  - 깊이 우선 탐색
-  - 너비 우선 탐색
+  - 깊이 우선 순회
+  - 너비 우선 순회
   - 경험적 탐색
  
-* 
+* 깊이 우선 순회(DSF:Depth First Search)
+  - 시작 노드 정하고 방문하지 않은 노드가 존재하지 않을 때까지 방문
+  - 방문한 노드의 인접 노드를 전부 방문하면 방문했던 경로로 되돌아감
+  
+  ![image](https://github.com/user-attachments/assets/f106279d-8e3f-483b-b5d9-417f5c4cfc35)
+
+  ![image](https://github.com/user-attachments/assets/b5a61fd5-cb36-4487-bd74-1b9332f042f9)
+
