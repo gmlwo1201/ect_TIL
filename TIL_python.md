@@ -255,7 +255,17 @@ if __name__ == "__main__":
     - 왼쪽, 오른쪽 자식 가리키는 포인터
   - 배열
     - 1차원 배열
-      - 자신의
+      - 자신의 부모 노드만 저장
+      - ![image](https://github.com/user-attachments/assets/63d08997-59ba-433c-9d40-2bdba1a019f0)
+
     - 2차원 배열
+      - A[i][0] : 왼쪽 자식 노드 , A[i][1] : 오른쪽 자식 노드
+      - ![image](https://github.com/user-attachments/assets/daf2e56b-44ed-41cb-97d0-b04c55db74dd)
+
+* 트리 자료구조 이용한 문제 해결 알고리즘
+  - 효율적 데이터 삽입, 삭제
+  - 탐색 문제 - 이진 탐색
+  - 정렬 문제 - 힙 정렬
+  - 압축 문제 - 허프만 압축
 
 
