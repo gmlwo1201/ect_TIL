@@ -268,4 +268,6 @@ if __name__ == "__main__":
   - 정렬 문제 - 힙 정렬
   - 압축 문제 - 허프만 압축
 
+![image](https://github.com/user-attachments/assets/9a91a77d-fdf5-45a3-b068-4c3ba63a06af)
 
+* 그래프 순회
