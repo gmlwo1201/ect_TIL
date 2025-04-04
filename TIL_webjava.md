@@ -458,7 +458,7 @@ DispatcherServlet이 요구하는 형식으로 변환
     - 브라우저 요청 결과를 출력하는 JSP 웹페이지
     - 자바 서버 페이지 표준 태그 라이브러리(JSTL)를 적용해 웹 페이지 표현
 
-## 로깅 기능 설정
+# 로깅 기능 설정
 * Log4j
   - 산업용 Java 로깅 프레임워크
   - API, 구현 및 다양한 사용 사례에 대한 배초 지원하는 요소로 구성
@@ -490,10 +490,24 @@ DispatcherServlet이 요구하는 형식으로 변환
 *  H2 데이터베이스 및 spring-jdbc 종속성 추가
   - h2 : H2 Database Engine
   - spring-jdbc : JDBC를 사용하고 데이터베이스 공급업체별 오류코드를 구문 분석하기위한 코드를 단순화하는 추상화 계층 제공하는 Spring Module
-  - 
+
+# 데이터 검색
+
+## JdbcTemplate
+- SpringJDBC 핵심 클래스
+- 모든 종류의 JDBC 작업 지원
+- Spring 6.1부터 연속 호출 형태 코딩 지원하는 JdbcClient 사용 가능
+
+## JdbcTemplate 이용한 도서목록 조회
+* JdbcTemplate 조회 메소드
+  - public List<T> query (String sql, RowMapper<T> rowMapper) throws DataAccessException
+    - 주어진 sql 실행하고 RowMapper 통해 각 행을 결과 객체에 매핑해 반환
+* org.springframwork.jdbc.core.RowMapper 인터페이스
+  - JdbcTemplate에서 ResultSet을 행 단위로 Java 객체에 매핑 가능
+  - 구현체는 각 행을 결과 객체에 매핑하는 실제 작업 수행, 예외는 JdbcTemplate에서 처리
 
 
-## 컨트롤러
+# 컨트롤러
 * 컨트롤러
   - 웹 브라우저에서 요청한 사용자 요청을 구현된 메소드에서 처리하고 그 결과를 뷰에 전달하는 스프링의 Bean 클래스
 * 구현 과정
@@ -536,3 +550,50 @@ DispatcherServlet이 요구하는 형식으로 변환
 * 클래스 수준의 @RequestMapping
   - 웹에서 사용자가 요청한 URL에 매핑되는 컨트롤러에 선언
   - 기본 매핑 경로를 설정하지 않은 @RequestMapping만 선언된 요청 처리 메소드가 있을 수 있음
+ 
+## 메소드에 .. 적용
+* 메소드 수준의 ..
+  - 웹에서 사용자가 요청한 URL을 처리할 컨트롤러 메소드 지정
+  - method 속성 기본값 : GET
+  - 매핑되는 URL
+    - 클래스에 적용된 @RequestMapping의 value + 메소드에 매핑된 @RequestMapping의 value 의 값이 적용
+   
+## 메소드 수준 @RequestMapping 단순화
+* 요청 처리 메소드 의미 명확히 표현
+
+  ![스크린샷 2025-04-04 220258](https://github.com/user-attachments/assets/24de693e-fe69-4679-99a0-993e10c910fd)
+
+# 요청 처리 메소드와 모델
+
+* 요청 처리 메소드
+  - Spring Web MVC 에서 사용자 요청 처리하는 메소드
+  - @RequestMapping에 설정된 요청 경로 매핑 메소드 호출
+  ```java
+  @RequestMapping(...)
+  public String 메소드 이름() {
+    // 모델에 응답 데이터 저장
+    return "뷰 이름";
+  }
+  ```
+* 모델, 뷰
+  - 모델 : 사용자 요청을 처리한 결과 데이터 관리, 전달
+  - 뷰 : 처리된 결과 데이터를 웹 브라우저에 출력하는 웹 페이지 역할
+  - Model : 데이터 저장하고 반환받는 단순한 메소드 제공
+    - 필요한 데이터는 Model 객체의 addAttribute() 메소드 이용해 Model에 추가
+    * 역할 : 제공된 이름으로 값 등록
+    * 매개변수
+      - attributeName : 데이터의 이름 (null 될 수 없음)
+      - attributeValue : 데이터 (null 가능)
+  - ModelMap : Map 또는 Model 인터페이스 통해 데이터 저장하고 반환 받을 수 있음
+  - ModelAndView : 모델, 뷰 정보 모두 관리 가능
+    - public ModelAndView addObject(String attributeName, @Nullable Object attributeValue)
+      * 역할 : 지정된 이름으로 데이터 저장
+      * 매개변수
+        - attributeName : 데이터의 이름 (null 될 수 없음)
+        - attributeValue : 데이터 (null 가능)
+    - public void setViewName(@Nullable String viewName)
+      * 역할 : ModelAndView 위한 뷰 이름 설정
+      * 매개변수
+        - viewName : 뷰 이름
+
+
