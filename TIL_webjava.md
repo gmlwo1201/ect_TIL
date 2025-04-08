@@ -596,4 +596,80 @@ DispatcherServlet이 요구하는 형식으로 변환
       * 매개변수
         - viewName : 뷰 이름
 
+**********
+# 경로 변수와 @PathVariable
+## 경로 변수
+* 웹 요청 URL에 포함된 파라미터 값 전달받는데 사용하는 변수
+* 매핑 경로 설정하는 @RequestMapping에 {} 사용해 웹 요청 URL에 포함된 요청 조건 값 전달
+  - {} 안에 경로 변수 명시
+  - 하나 이상의 경로 변수 포함 가능
+## PathVariable 이용한 경로 변수 처리
+* PathVariable
+  - @RequestMapping에 설정된 경로 변수 값 요청 처리 메소드의 매개변수로 전달
+  - 경로 변수 적용 사례 - http://.../home/exam01/ISBN1234
+  ``` java
+  @Controller
+  @RequestMapping("/home") // /home/exam01/ISBN1234
+  public class Example01Controller {
+    @GetMapping("/exam01/{bookId}") // /exam01/ISBN1234
+    public String requestMethod
+    (@PathVariable String bookId, Model model) // ISBN1234
+  {
+    System.out.println("도서 ID: " + bookId);
+    model.addAttribute("data", "도서 ID: "
+    + bookId);
+    return "webpage06";
+  }
+  }
+  ```
+  ```jsp
+  <%@ page language="java"
+  contentType="text/html; charset=UTF-8"
+  pageEncoding="UTF-8"%>
+  <!DOCTYPE html>
+  <html>
+  <head>
+  <meta charset="UTF-8">
+  <title>Example</title>
+  </head>
+  <body>
+  <p>${data}</p> // ISBN1234
+  </body>
+  </html>
+  ```
+  - 다중 경로 변수 적용 사례 - http://.../home/exam02/IT전문서/publisher/신구문학사
+```java
+@Controller
+@RequestMapping("/home") // /home/exam02/IT전문서/publisher/신구문학사
+public class Example02Controller {
+@GetMapping("/exam02/{category}/publisher/{publisher}") // /exam02/IT전문서/publisher/신구문학사
+public String requestMethod(
+@PathVariable String category,
+@PathVariable String publisher, Model model) {
+System.out.println("도서 분야: " + category);
+System.out.println("출판사: " + publisher);
+model.addAttribute("data", "도서 분야: "
++ category + "<br/>"
++ "출판사: " + publisher);
+return "webpage06";
+}
+}
+```
+```jsp
+<%@ page language="java"
+contentType="text/html;charset=UTF-8"
+pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Example</title>
+</head>
+<body>
+<p>${data}</p> // 도서 분야: IT전문서 <br/> 출판사: 신구문학사
+</body>
+</html>
+
+```
+
 
