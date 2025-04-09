@@ -674,15 +674,21 @@ pageEncoding="UTF-8"%>
 ## 카테고리 이용한 도서 목록 조회 SQL
 * 목표 SQL
   - 카테고리 키워드 이용해 도서 목록 조회할 수 있어야 함
-```sql
+```java
 select * from bookwhere b_category like '%IT활용서%';
 // IT 활용서는 변수로 치환
 ```
 * 실행 SQL 문자열
   - SQL에서 파라미터 처리 : ?
-```sql
+```java
 String sql = "select b_bookId, b_name, b_unitPrice, b_author,"
 + "b_description, b_publisher, b_category, b_unitsInStock, "
 + "b_releaseDate, b_condition from book where b_category like '%' || ? 
 || '%' ";
-``` 
+```
+
+## JdbcTemplate 파라미터 검색
+* 파라미터 조회 메소드
+  - public <T> List<T> query(String sql, RowMapper<T> rowMapper, @Nullable Object... args) throws DataAccessException
+    - 주어진 sql을 실행하고 RowMapper 통해 각 행 결과 객체에 매핑해 반환
+    - 뒤따르는 인자(args)는 SQL의 파라미터 표기에 치환될 파라미터 열거
