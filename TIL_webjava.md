@@ -603,8 +603,8 @@ DispatcherServlet이 요구하는 형식으로 변환
 * 매핑 경로 설정하는 @RequestMapping에 {} 사용해 웹 요청 URL에 포함된 요청 조건 값 전달
   - {} 안에 경로 변수 명시
   - 하나 이상의 경로 변수 포함 가능
-## PathVariable 이용한 경로 변수 처리
-* PathVariable
+## @PathVariable 이용한 경로 변수 처리
+* @PathVariable
   - @RequestMapping에 설정된 경로 변수 값 요청 처리 메소드의 매개변수로 전달
   - 경로 변수 적용 사례 - http://.../home/exam01/ISBN1234
   ``` java
@@ -669,7 +669,20 @@ pageEncoding="UTF-8"%>
 <p>${data}</p> // 도서 분야: IT전문서 <br/> 출판사: 신구문학사
 </body>
 </html>
-
 ```
 
-
+## 카테고리 이용한 도서 목록 조회 SQL
+* 목표 SQL
+  - 카테고리 키워드 이용해 도서 목록 조회할 수 있어야 함
+```sql
+select * from bookwhere b_category like '%IT활용서%';
+// IT 활용서는 변수로 치환
+```
+* 실행 SQL 문자열
+  - SQL에서 파라미터 처리 : ?
+```sql
+String sql = "select b_bookId, b_name, b_unitPrice, b_author,"
++ "b_description, b_publisher, b_category, b_unitsInStock, "
++ "b_releaseDate, b_condition from book where b_category like '%' || ? 
+|| '%' ";
+``` 
