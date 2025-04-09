@@ -692,3 +692,11 @@ String sql = "select b_bookId, b_name, b_unitPrice, b_author,"
   - public <T> List<T> query(String sql, RowMapper<T> rowMapper, @Nullable Object... args) throws DataAccessException
     - 주어진 sql을 실행하고 RowMapper 통해 각 행 결과 객체에 매핑해 반환
     - 뒤따르는 인자(args)는 SQL의 파라미터 표기에 치환될 파라미터 열거
+
+## Http Character Encoding
+* Http 특징
+  - Http URL 및 Http Body는 영문 대소문자, 일부 기호 문자만 지원
+  - 한글 문자는 불가능
+    - 브라우저에서는 Http에서 지원하는 문자로 인코딩 후 서버 전송
+    - 서버가 전달 받은 문자열은 브라우저에서 인코딩한 문자집합(CharacterSet)으로 디코딩 후 사용
+    - 기본적으로 서버는 서버 기본 문자 집합으로 디코딩
