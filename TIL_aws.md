@@ -218,3 +218,90 @@
 "Resource": "arn:aws:s3:::demo.rwlecture.com/*"
 }
 ```
+**********
+# AWS CLI
+## AWS CLI란?
+  - Amazon Web Services Command Line Interface
+  - AWS 리소스(S3, EC2, IAM 등)를 터미널/명령 프롬프트로 제어할 수 있는 도구
+  - 콘솔 클릭하지 않아도 명령어만으로 S3 버킷 생성, 파일 업로드, EC2 실행 같은 작업 가능
+* AWS S3 CLI 주요 명령어
+  - aws s3 ls : 버킷 목록 확인
+  - **aws s3 ls s3://버킷이름/** : 버킷 내부 파일 목록
+  - **aws s3 cp 로컬경로 s3://버킷이름/경로** : 파일 업로드
+  - **aws s3 cp s3://버킷이름/경로 로컬경로** : 파일 다운로드
+  - 폴더 업로드/다운로드
+    - 다운로드 : **aws s3 cp s3://my-bucket/folder ./local-folder --recursive**
+    - 업로드: **aws s3 cp ./local-folder s3://my-bucket/folder --recursive**
+*********
+# Auto Scaling
+## Scaling이란?
+  - 애플리케이션/시스템 성능 높이기 위해 컴퓨팅 리소스를 확장/축소하는 것
+  - 요청이 많아질 때 처리 가능하도록 서버 키우는 것
+## Scale-Up (Vertical Scaling)
+![image](https://github.com/user-attachments/assets/7cecb4b5-0d7c-4db0-9a1d-a39773658991)
+
+* 장점
+  - 단순하고 설정 쉬움
+* 단점
+  - 물리적 한계 존재
+  - 재시작 필요
+  - 서버 하나에만 의존 > 장애 발생 시 위험
+## Scale-Out (Horizontal Scaling)
+![image](https://github.com/user-attachments/assets/df718c28-9efe-4afc-b828-7c333752dd65)
+
+* 장점
+  - 무중단 확장 가능
+* 단점
+  - 복잡한 아키텍쳐
+  - Load Balancer(ELB) 등 구성 필요
+
+## Auto Scaling
+  - 트래픽 상황에 맞춰 서버 수 자동으로 확장/축소해주는 AWS 서비스
+    - 트래픽 증가 > 인스턴스 증가
+    - 사용량 감소 > 인스턴스 축소
+    - 리소스 비용 절감 + 고가용성 유지
+## 구성 요소
+* Launch Template
+  - 새 인스턴스 생성할 때 필요한 설정 들어있는 설계도
+  - 어떤 AMI(이미지)로 만들지
+  - 인스턴스 타입(t3, micro 등)
+  - 키 페어, 보안 그룹
+  - UserData 스크립트(초기 세팅 자동화)
+* Auto Scaling Group(ASG)
+  - 인스턴스 묶어서 관리하는 단위
+  - 최소/최대/원하는(Desired) 인스턴스 수 설정
+  - 실제 인스턴스 수 계속 모니터링하고 자동 조절
+  - Availability Zone 간 분산 가능
+* Scaling Policy(스케일링 정책)
+  - 언제, 어떻게 서버 수 조절할 지에 대한 규칙
+  - Target Tracking : 평균 CPU 60% 유지 같은 목표 설정
+  - Step Scaling : CPU 70 ~ 80% > + 1대, 80% 이상 > + 2대
+  - Scheduled Scaling : 특정 시간에 확장
+* CloudWatch 알람
+  - 지표 감시하다가 스케일링 정책 실행하는 역할
+  - CPU 사용률, 네트워크 트래픽, 메모리 등 모니터링
+  - 조건 충족 시 Scaling Policy 트리거
+  - 실시간 알람 + 로그 기록 가능
+ 
+## Auto Scaling 생성
+* 사용자 데이터
+```java
+#!/bin/bash
+yum update -y
+amazon-linux-extras install -y epel
+yum install -y httpd stress-ng
+systemctl enable httpd
+systemctl start httpd
+echo "Hello from Auto Scaling Instance" > /var/www/html/index.html
+```
+* 상태 확인 유예 기간
+  - 인스턴스 부팅되자마자 "상태 확인 실패"로 종료되지 않게 유예 기간 설정
+* ASG 설정 값
+  - 원하는 용량 (Desired Capacity) : 현재 운영하고 싶은 인스턴스 수
+  - 최소 용량 (Min Capacity) : 줄어들 수 있는 하한선
+  - 최대 용량 (Max Capacity) : 늘어날 수 있는 상한선
+  - 원하는 용량은 **최소보다 작을 수 없고 최대보다 클 수 없음**
+* 원하는 용량, 최소 용량, 최대 용량 2로 설정 > 서버 하나 종료
+  > 다른 인스턴스가 실행됨
+  > 원하는 용량, 최소 용량, 최대 용량 1로 설정
+    > 생성된 서버 중 하나 종료됨
