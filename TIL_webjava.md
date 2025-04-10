@@ -749,3 +749,25 @@ public String method1(@MatrixVariable("color") String color, ...) {
     
 ![스크린샷 2025-04-10 124104](https://github.com/user-attachments/assets/814acf5c-4fb5-4caf-9c94-87f98d8b3041)
 
+# 요청 파라미터와 @RequestParam
+## 요청 파라미터(request parameters)
+* 요청 URL에 포함된 파라미터
+  - http_URL = "http:" "//" host [ ":" port ] [ abs_path [ "?" query ]]
+* 파라미터 이름, 값은 = 로 구분
+* 파라미터 여러 개일 때 파라미터는 & 로 구분
+```java
+@Controller
+public class CarController {
+  ...
+  @GetMapping("/cars")
+  public String requestMethod(@RequestParam String color,...) {
+    ...
+    return "cars";
+  }
+}
+```
+
+## @RequestParam 이용한 요청 파라미터 처리
+* @RequestMapping 요청 매핑 경로에 포함된 요청 파라미터 값 요청 처리 메소드의 매개변수로 전달 받음
+* ![image](https://github.com/user-attachments/assets/597ae07c-6aa2-4312-9982-c92dec656a33)
+
