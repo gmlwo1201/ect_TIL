@@ -708,3 +708,44 @@ String sql = "select b_bookId, b_name, b_unitPrice, b_author,"
 - @RequestMapping의 경로 변수에 '매트릭스_변수=값' 형태로 사용
 - 매트릭스 변수 여러 개일 경우
   - , 로 구분 or 변수 이름 반복하여 사용
+
+## @MatrixVariable 이용한 매트릭스 변수 처리
+* @MatrixVariable
+  - @RequestMapping에 설정된 경로 변수에 포함된 매트릭스 변수 값을 요청 처리 메소드의 매개변수로 전달받음
+```java
+// 경로 변수 내 매트릭스 변수를 그대로 사용할 때
+@RequestMapping("경로_변수")
+public String method1(@MatrixVariable 매트릭스_변수, ...) {
+...
+}
+@RequestMapping("/cars/{car}")
+public String method1(@MatrixVariable Map<String, String> color, ...) {
+...
+}
+// 경로 변수 내 매트릭스 변수를 재정의하여 사용할 때
+@RequestMapping("경로_변수")
+public String method1(@MatrixVariable(매트릭스_변수) 매개변수, ...) {
+...
+}
+// 경로 변수 내 매트릭스 변수를 재정의하여 사용할 때
+@RequestMapping("/cars/{car}")
+public String method1(@MatrixVariable("color") String color, ...) {
+...
+}
+
+```
+  - 매트릭스 변수는 기본적으로 Spring에 의해 URL에서 제거
+  - 제거 막는 방법
+    > servlet-context.xml의 <annotation-driven> 요소에 enable-matrix-variable=true 설정
+    > 위와 같이 설정하면 제거되지 않음
+    > 요청 매핑 패턴은 매트릭스 변수가 예상되는 경로 세그먼트에서 URI 변수로 사용해야 함
+
+* @MatrixVariable 속성 (속성-타입-기본값-설명)
+  - defaultValue - String - ValueConstants.DEFAULT_NONE - 값이 없을 때 기본 값으로 대체하여 사용
+  - name - String - "" - 매트릭스 변수의 이름
+  - pathVar - String - ValueConstants.DEFAULT_NONE - 하나 이상의 경로 구분(/)에 동일한 이름 명확하게 구분하는데 사용, 매트릭스 변수가 있는 URI 경로 변수 이름
+  - required - boolean - true - 매트릭스 변수 필수인지 여부
+  - value - String - "" - 매트릭스 변수 'name=value'에서 name
+    
+![스크린샷 2025-04-10 124104](https://github.com/user-attachments/assets/814acf5c-4fb5-4caf-9c94-87f98d8b3041)
+
