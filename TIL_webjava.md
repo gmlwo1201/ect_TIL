@@ -769,5 +769,5 @@ public class CarController {
 
 ## @RequestParam 이용한 요청 파라미터 처리
 * @RequestMapping 요청 매핑 경로에 포함된 요청 파라미터 값 요청 처리 메소드의 매개변수로 전달 받음
-* ![image](https://github.com/user-attachments/assets/597ae07c-6aa2-4312-9982-c92dec656a33)
+![image](https://github.com/user-attachments/assets/597ae07c-6aa2-4312-9982-c92dec656a33)
 
