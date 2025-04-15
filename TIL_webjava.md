@@ -771,3 +771,25 @@ public class CarController {
 * @RequestMapping 요청 매핑 경로에 포함된 요청 파라미터 값 요청 처리 메소드의 매개변수로 전달 받음
 ![image](https://github.com/user-attachments/assets/597ae07c-6aa2-4312-9982-c92dec656a33)
 
+***********
+# 스프링 폼 태그 라이브러리
+## 스프링 폼 태그
+- 스프링 웹 MVC와 연동되는 JSP 태그 라이브러리
+* 사용하는 경우
+  - 폼에서 전달되는 파라미터 이름으로 Geter() 메소드 작성한 Java Bean 클래스 프로퍼티(필드 이름)에 접근 가능
+  - 컨트롤러가 다루는 데이터 참조할 수 있어 동적 웹 애플리케이션 더 쉽고 편리하게 개발, 유지 관리 가능
+  - 스프링 폼 태그 사용하려면 JSP 상단 스프링 폼 태그 라이브러리 선언 필요
+    - <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+* 종류<br>
+![image](https://github.com/user-attachments/assets/993f0497-ffb2-4c21-a2df-0b991168701b)
+
+## 사용법
+* <form> 태그
+  - 단독으로 쓰임 X, 사용자에게 데이터 입력받는 다양한 입력 양식 포함하는 최상위 태그로 사용
+- 형식
+```java
+<form:form 속성1="값1" [속성2="값2" ...]>
+// 다양한 입력 양식 태그(<input>, <select>, < textarea>...)
+</form:form>
+```
+![image](https://github.com/user-attachments/assets/1d3fe798-58b3-4263-925c-38038eb7b263)
