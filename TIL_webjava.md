@@ -816,3 +816,34 @@ public class CarController {
 </form:form>
 ```
   - <form:form> 태그 내 modelAttribute 속성 설정하면 중첩되는 <form:form> 태그에 반드시 path 속성 설정해야 함
+
+# ModelAttribute 이용한 데이터 바인딩
+## ModelAttribute
+  - 메소드 매개변수/메소드 반환 값을 **웹 뷰에 노출되는 명명된 모델 속성**에 바인딩하는 어노테이션
+  - @RequestMapping 메소드가 있는 컨트롤러 클래스에서 지원
+  - JSP 폼에서 입력된 데이터가 컨트롤러에 전달 > Java Bean 객체에 입력된 데이터 채움
+  - 컨트롤러 안에 @RequestMapping 적용된 요청 처리 메소드의 매개변수에 설정해 사용
+```java
+public String method_name(@ModelAttribute 매개변수, Model model) {
+  // model.addAttribute(...);
+  return "뷰이름";
+}
+```
+## 메소드에 적용 방법
+- 컨트롤러에서 **공통적으로 Model에 설정할 속성 지정**할 때 사용
+- 컨트롤러 내부에 @RequestMapping 적용되지 않은 별도 메소드 만들고 @ModelAttribute 적용
+```java
+@ModelAttribute("모델_속성_이름")
+public String 메소드_이름() {
+...
+}
+@ModelAttribute
+public void 메소드_이름(Model model) {
+// model.addAttribute(...);
+}
+```
+## Redirect/Forward
+![image](https://github.com/user-attachments/assets/8925fbb6-b745-4c47-babc-d4a6b7fa10f3)
+
+![image](https://github.com/user-attachments/assets/ac1ad366-737e-4e89-a98b-84cfaf9434d7)
+
