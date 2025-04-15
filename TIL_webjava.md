@@ -793,3 +793,26 @@ public class CarController {
 </form:form>
 ```
 ![image](https://github.com/user-attachments/assets/1d3fe798-58b3-4263-925c-38038eb7b263)
+
+* 사용 예제
+  - action 속성 생락된 경우 이 폼 출력한 요청 URL 자동 설정
+  - method 속성 생략된 경우 POST 자동 설정
+```java
+<form:form modelAttribute="member">
+...
+</form:form>
+```
+* 출력된 HTML <form>
+```java
+<form id="member" action="..." method="post">
+...
+</form>
+```
+* <form> 안에 사용하는 태그
+  - <form::form> 태그 내 중첩되어 사용되며 반드시 종료(/>) 태그로 닫아야함
+```java
+<form:form modelAttribute="커맨드 객체">
+  <form:태그_이름 path="커맨드 객체의 프로퍼티(필드)"/>
+</form:form>
+```
+  - <form:form> 태그 내 modelAttribute 속성 설정하면 중첩되는 <form:form> 태그에 반드시 path 속성 설정해야 함
