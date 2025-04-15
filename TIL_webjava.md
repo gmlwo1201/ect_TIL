@@ -6,6 +6,20 @@
 2. Java API는 JCP로 표준화
 3. 라이선스 (Oracle)
 
+## Java 역사
+* 썬 마이크로시스템즈 제임스 고슬링 팀에서 개발한 객체지향 프로그래밍 언어
+* 1991년 그린 프로젝트 > 1995년 발표
+* 초기 가전제품 동작 프로그램
+* 현재 **웹 애플리케이션 서버 분야**에서 많이 사용됨
+* 2009~10 Oracle로 소유권 이전
+* 17년 Oracle은 Java EE를 Eclipse Foundation에 제출
+  - Eclipse Foundation은 javax 및 java 상표 사용 합의 실패
+    - Jakarta EE로 명칭, 패키지명 변경
+  - **Java EE는 버전 8까지 지원**
+  - **Jakarta EE는 버전 8부터 지원**
+![image](https://github.com/user-attachments/assets/e3e9204e-d764-4659-abbb-18c03eb2e684)
+
+
 ## Spring Framework
 1. 대규모 자바 어플개발 신속 편리 오픈소스 프레임워크
 2. 의미
