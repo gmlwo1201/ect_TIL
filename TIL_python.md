@@ -349,7 +349,7 @@ if __name__ == "__main__":
   - 너비 우선 순회
   - 경험적 탐색
  
-* 깊이 우선 순회(DSF:Depth First Search)
+* 깊이 우선 탐색(DSF:Depth First Search)
   - 시작 노드 정하고 방문하지 않은 노드가 존재하지 않을 때까지 방문
   - 방문한 노드의 인접 노드를 전부 방문하면 방문했던 경로로 되돌아감
   - 시작 노드에서 한 방향으로 마지막 노드까지 방문
@@ -360,10 +360,10 @@ if __name__ == "__main__":
 
   ![image](https://github.com/user-attachments/assets/b5a61fd5-cb36-4487-bd74-1b9332f042f9)
 
-  * 트리구조 DSF
+  * 트리구조 DSF<br>
   ![image](https://github.com/user-attachments/assets/0adca823-0b8c-4563-b45b-b42e800ba2be)
 
-* 너비 우선 순회(BSF:Breadth First Search)
+* 너비 우선 탐색(BSF:Breadth First Search)
   - 시작 노드를 정하고 인접한 노드 차례대로 모두 방문
   - 방문했던 정점 시작으로 다시 인접한 정점 차례로 방문
   - 시작 노드와 가까운 노드부터 방문하고 멀리 떨어진 노드는 나중에 방문
@@ -373,6 +373,19 @@ if __name__ == "__main__":
 
   ![image](https://github.com/user-attachments/assets/2ea2be7b-ae6c-4e03-85ed-3673bda7e44a)
 
-  * 트리 구조 BSF
+  * 트리 구조 BSF<br>
   ![image](https://github.com/user-attachments/assets/41f59e26-aff3-4830-b5cc-d449ad35d8b2)
+
+* 이진 탐색(Binary Search)
+  - 데이터를 오름차순으로 정렬해야 함
+  - 데이터의 중앙 값(middle)을 선정하여 키 값과 비교
+  - 키 값 > middle > middle 왼쪽, 반대 > 오른쪽 데이터 제거
+  - 남은 데이터에서 middle 선정해 반복
+ 
+* 힙 정렬(트리)
+  - 이진 트리 구성 방법
+  - 루트 값 선정 > 루트보다 작은 데이터 왼쪽 노드, 크면 오른쪽 노드
+  - 자식 노드에서 반복
+  - 탐색 > 이진 탐색과 동일
+![image](https://github.com/user-attachments/assets/228a14a5-8172-4d46-8849-bfc81aa1c979)
 
