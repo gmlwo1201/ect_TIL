@@ -306,6 +306,15 @@ if __name__ == "__main__":
     - 자식 노드 한쪽에만 배치됨
   ![image](https://github.com/user-attachments/assets/a0c7c0da-ac7c-4c3f-bab3-ac19a28f1c3c)
 
+* 이진트리 노드 구조
+![image](https://github.com/user-attachments/assets/c66890a2-9f6c-4fbd-be40-ba797d44c76b)
+
+* 생성 과정
+  - 높이 : 2 / 데이터 6개 완전 이진트리 생성
+  1. 루트 노드 생성
+  2. 두 번째 노드 생성, 루트 노드 *왼쪽 노드*로 지정
+  3. 세 번째 노드 생성, *오른쪽 노드*로 지정
+  4. 네 번째부터 여섯 번째까지 노드 생성, 연결
 
 * 자료구조
   - 트리 특징과 규칙 갖도록 데이터 저장 -> 자료구조
