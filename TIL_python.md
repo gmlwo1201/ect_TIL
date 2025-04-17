@@ -320,17 +320,18 @@ if __name__ == "__main__":
   - 트리 특징과 규칙 갖도록 데이터 저장 -> 자료구조
   - 자료형과 기본 자료구조 이용해 데이터 저장
   - 프로그래밍 언어에서 제공하는 자료형 이용해 표현
+  
 * 표현
   - 인접 리스트
     - 왼쪽, 오른쪽 자식 가리키는 포인터
   - 배열
     - 1차원 배열
       - 자신의 부모 노드만 저장
-      - ![image](https://github.com/user-attachments/assets/63d08997-59ba-433c-9d40-2bdba1a019f0)
+      ![image](https://github.com/user-attachments/assets/63d08997-59ba-433c-9d40-2bdba1a019f0)
 
     - 2차원 배열
       - A[i][0] : 왼쪽 자식 노드 , A[i][1] : 오른쪽 자식 노드
-      - ![image](https://github.com/user-attachments/assets/daf2e56b-44ed-41cb-97d0-b04c55db74dd)
+      ![image](https://github.com/user-attachments/assets/daf2e56b-44ed-41cb-97d0-b04c55db74dd)
 
 * 트리 자료구조 이용한 문제 해결 알고리즘
   - 효율적 데이터 삽입, 삭제
@@ -338,6 +339,7 @@ if __name__ == "__main__":
   - 정렬 문제 - 힙 정렬
   - 압축 문제 - 허프만 압축
 
+* 그래프/트리 차이
 ![image](https://github.com/user-attachments/assets/9a91a77d-fdf5-45a3-b068-4c3ba63a06af)
 
 ## 그래프 순회(탐색)
