@@ -273,16 +273,35 @@ if __name__ == "__main__":
 * 트리
   - 노드와 간선으로 구성
   - 그래프의 일종으로 여러 노드가 한 노드를 가리킬 수 없는 구조
+  ![스크린샷 2025-04-03 140043](https://github.com/user-attachments/assets/1bd959d1-0891-438e-8368-f3c17c7c11f8)
+ 
+* 용어<br>
+![image](https://github.com/user-attachments/assets/01d9ff63-6fa6-43f7-86db-f8b641dfc47b)
+
+
 * 종류
   - B트리
     - 자식 노드가 2개 이상
   - 이진트리
     - 자식 노드가 2개 이하(0,1,2)
-  - 완전 이진트리
+  ![image](https://github.com/user-attachments/assets/f72fcdd0-b93e-4779-9485-2332270b153e)
+
+  * 완전 이진트리
     - 자식 노드 추가할 때 왼쪽부터 오른쪽으로 추가
-  - 균형 이진트리
+  ![image](https://github.com/user-attachments/assets/9749b75f-4932-4c02-a315-69fe6ef72221)
+
+  * 균형 이진트리
     - 자식 노드의 추가 위치 상관없음, 왼쪽 오른쪽 레벨 차이 1 이하
-  ![스크린샷 2025-04-03 140043](https://github.com/user-attachments/assets/1bd959d1-0891-438e-8368-f3c17c7c11f8)
+   
+  * 포화 이진트리
+    - 자식 노드가 모두 2개씩 연결
+  ![image](https://github.com/user-attachments/assets/14cd1534-9fe8-4f55-b006-2e7b04e4a3a3)
+
+
+  * 편향 이진트리
+    - 자식 노드 한쪽에만 배치됨
+  ![image](https://github.com/user-attachments/assets/a0c7c0da-ac7c-4c3f-bab3-ac19a28f1c3c)
+
 
 * 자료구조
   - 트리 특징과 규칙 갖도록 데이터 저장 -> 자료구조
@@ -308,7 +327,7 @@ if __name__ == "__main__":
 
 ![image](https://github.com/user-attachments/assets/9a91a77d-fdf5-45a3-b068-4c3ba63a06af)
 
-## 그래프 순회
+## 그래프 순회(탐색)
   - 그래프 또는 트리 같은 연결 구조에서 **모든 정점(노드)** 을 순차적으로 탐색
   - 목적 : 특정 노드 탐색
   - 깊이 우선 순회
@@ -320,6 +339,7 @@ if __name__ == "__main__":
   - 방문한 노드의 인접 노드를 전부 방문하면 방문했던 경로로 되돌아감
   - 시작 노드에서 한 방향으로 마지막 노드까지 방문
   - 방문 경로 되돌아가면서 방문하지 않은 노드 확인 후 방문
+  - 후입선출 구조 스택 사용
   
   ![image](https://github.com/user-attachments/assets/f106279d-8e3f-483b-b5d9-417f5c4cfc35)
 
@@ -329,8 +349,10 @@ if __name__ == "__main__":
   ![image](https://github.com/user-attachments/assets/0adca823-0b8c-4563-b45b-b42e800ba2be)
 
 * 너비 우선 순회(BSF:Breadth First Search)
-  - 시작 노드를 정하고 인접한 노드 모두 방문
+  - 시작 노드를 정하고 인접한 노드 차례대로 모두 방문
+  - 방문했던 정점 시작으로 다시 인접한 정점 차례로 방문
   - 시작 노드와 가까운 노드부터 방문하고 멀리 떨어진 노드는 나중에 방문
+  - 선입선출 구조 큐 사용
 
   ![image](https://github.com/user-attachments/assets/6c1ca4d1-b6a0-40d8-b901-ab4e1f8ec45a)
 
