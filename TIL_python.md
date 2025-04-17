@@ -218,9 +218,12 @@ if __name__ == "__main__":
 * 용어
   - 인접(Adjacent) : 간선으로 연결되어 있는 두 정점
   - 경로(Path) : 그래프 안에서 형성된 길
+  - 경로 길이(path length) : 경로 구성하는 간선 수
+  - 단순 경로(simple path) : 모두 다른 정점으로 구성된 경로
   - 차수(degree) : 정점에 속한 간선들의 수
   - 연결(Connected) : 무방향 그래프 - 두 정점 사이 경로 존재 > 두 정점이 연결 / 그래프 내 모든 정점이 연결 > 그래프 연결
-  - 사이클(Cycle) : 처음과 마지막 정점이 같은 단순 경로
+  - 사이클(Cycle) : 단순 경로에서 처음과 마지막 정점이 같은 단순 경로
+  - DAG(directed acyclic graph) : 방향 그래프면서 사이클 없는 그래프
 * 종류
   - 무방향 그래프(Undirected Graph) : 간선에 방향성 없는 그래프, 정점의 쌍에 순서 없음
   ![image](https://github.com/user-attachments/assets/727ca033-d889-4926-9536-8c1e2e9d40e5)
@@ -231,6 +234,12 @@ if __name__ == "__main__":
   - 완전 그래프(complete graph) : 각 정점에서 다른 모든 정점 연결해 가능한 최대의 간선 수 가진 그래프
     - 정점 n개 무방향 그래프의 최대 간선 수 : n(n-1)/2 || ... 방향 그래프 최대 간선 수 : n(n-1)
   ![image](https://github.com/user-attachments/assets/c2e8a4bc-3358-46db-a8f4-d1a6b38d55de)
+
+  - 부분 그래프(subgraph) : 기존 그래프의 일부 정점/간선 제외해 만든 그래프
+  ![image](https://github.com/user-attachments/assets/75570478-5a9b-4d44-990b-9bffe6fc1433)
+
+  - 가중 그래프(weight graph), 네트워크(network) : 간선에 가중치(weight) 할당한 그래프
+  ![image](https://github.com/user-attachments/assets/4f9781be-a0a5-412c-8900-d87f25f31df5)
 
 
 * 자료구조
@@ -246,7 +255,7 @@ if __name__ == "__main__":
   - 무방향 그래프일 경우 헤드 노드 뒤에 연결된 노드 개수가 그 노드의 차수
   ![image](https://github.com/user-attachments/assets/a1530555-0bed-4ae9-a914-e18f8934d14a)
 
-* 표현 - 배열
+* 표현 - 배열(인접 행렬)
   - 2차원 배열 자료구조 사용
   - 많은 메모리 공간 요구, 인접 리스트보다 접근 빠름
   - 정점 수만큼 행과 열을 가진 행렬 이용하여 표현
