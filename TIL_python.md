@@ -286,7 +286,7 @@ if __name__ == "__main__":
     - 자식 노드가 2개 이하(0,1,2)
   ![image](https://github.com/user-attachments/assets/f72fcdd0-b93e-4779-9485-2332270b153e)
 
-  * 완전 이진트리
+  * 완전(Average Valanced Level) 이진트리
     - 자식 노드 추가할 때 왼쪽부터 오른쪽으로 추가
   ![image](https://github.com/user-attachments/assets/9749b75f-4932-4c02-a315-69fe6ef72221)
 
