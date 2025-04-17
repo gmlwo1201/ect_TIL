@@ -212,6 +212,7 @@ if __name__ == "__main__":
  
 ## 그래프
 * 그래프
+  - 선형/트리 자료구조로 표현 어려운 n:n 관계 가지는 원소들 표현하기 위한 자료구조
   - 정점과 간선 모음들의 결합
   - 정점의 집합 : V, 간선의 집합 : E, 그래프 : G -> G = (V,E)
 * 용어
@@ -226,6 +227,11 @@ if __name__ == "__main__":
 
   - 방향 그래프(Directed Graph) : 간선에 방향성 있는 그래프, 정점의 쌍에 순서 있음
   ![image](https://github.com/user-attachments/assets/5ae3e79e-6aa4-4ae6-aea0-07d700083219)
+
+  - 완전 그래프(complete graph) : 각 정점에서 다른 모든 정점 연결해 가능한 최대의 간선 수 가진 그래프
+    - 정점 n개 무방향 그래프의 최대 간선 수 : n(n-1)/2 || ... 방향 그래프 최대 간선 수 : n(n-1)
+  ![image](https://github.com/user-attachments/assets/c2e8a4bc-3358-46db-a8f4-d1a6b38d55de)
+
 
 * 자료구조
   - 그래프 특징과 규칙 갖도록 데이터 저장 > 자료구조
@@ -294,7 +300,7 @@ if __name__ == "__main__":
 ![image](https://github.com/user-attachments/assets/9a91a77d-fdf5-45a3-b068-4c3ba63a06af)
 
 ## 그래프 순회
-  - 그래프 또는 트리 같은 연결 구조에서 모든 정점(노드)을 순차적으로 탐색
+  - 그래프 또는 트리 같은 연결 구조에서 **모든 정점(노드)** 을 순차적으로 탐색
   - 목적 : 특정 노드 탐색
   - 깊이 우선 순회
   - 너비 우선 순회
@@ -303,6 +309,8 @@ if __name__ == "__main__":
 * 깊이 우선 순회(DSF:Depth First Search)
   - 시작 노드 정하고 방문하지 않은 노드가 존재하지 않을 때까지 방문
   - 방문한 노드의 인접 노드를 전부 방문하면 방문했던 경로로 되돌아감
+  - 시작 노드에서 한 방향으로 마지막 노드까지 방문
+  - 방문 경로 되돌아가면서 방문하지 않은 노드 확인 후 방문
   
   ![image](https://github.com/user-attachments/assets/f106279d-8e3f-483b-b5d9-417f5c4cfc35)
 
