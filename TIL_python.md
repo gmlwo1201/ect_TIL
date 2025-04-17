@@ -338,6 +338,20 @@ if __name__ == "__main__":
   - 탐색 문제 - 이진 탐색
   - 정렬 문제 - 힙 정렬
   - 압축 문제 - 허프만 압축
+ 
+* 이진 탐색(Binary Search)
+  - 데이터를 오름차순으로 정렬해야 함
+  - 데이터의 중앙 값(middle)을 선정하여 키 값과 비교
+  - 키 값 > middle > middle 왼쪽, 반대 > 오른쪽 데이터 제거
+  - 남은 데이터에서 middle 선정해 반복
+![image](https://github.com/user-attachments/assets/012e6a19-3995-4ac1-9a31-a55c6eff290e)
+ 
+* 힙 정렬(트리)
+  - 이진 트리 구성 방법
+  - 루트 값 선정 > 루트보다 작은 데이터 왼쪽 노드, 크면 오른쪽 노드
+  - 자식 노드에서 반복
+  - 탐색 > 이진 탐색과 동일
+![image](https://github.com/user-attachments/assets/228a14a5-8172-4d46-8849-bfc81aa1c979)
 
 * 그래프/트리 차이
 ![image](https://github.com/user-attachments/assets/9a91a77d-fdf5-45a3-b068-4c3ba63a06af)
@@ -345,7 +359,7 @@ if __name__ == "__main__":
 ## 그래프 순회(탐색)
   - 그래프 또는 트리 같은 연결 구조에서 **모든 정점(노드)** 을 순차적으로 탐색
   - 목적 : 특정 노드 탐색
-  - 깊이 우선 순회
+  - 깊이 우선 탐색
   - 너비 우선 순회
   - 경험적 탐색
  
@@ -375,17 +389,4 @@ if __name__ == "__main__":
 
   * 트리 구조 BSF<br>
   ![image](https://github.com/user-attachments/assets/41f59e26-aff3-4830-b5cc-d449ad35d8b2)
-
-* 이진 탐색(Binary Search)
-  - 데이터를 오름차순으로 정렬해야 함
-  - 데이터의 중앙 값(middle)을 선정하여 키 값과 비교
-  - 키 값 > middle > middle 왼쪽, 반대 > 오른쪽 데이터 제거
-  - 남은 데이터에서 middle 선정해 반복
- 
-* 힙 정렬(트리)
-  - 이진 트리 구성 방법
-  - 루트 값 선정 > 루트보다 작은 데이터 왼쪽 노드, 크면 오른쪽 노드
-  - 자식 노드에서 반복
-  - 탐색 > 이진 탐색과 동일
-![image](https://github.com/user-attachments/assets/228a14a5-8172-4d46-8849-bfc81aa1c979)
 
