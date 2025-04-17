@@ -292,13 +292,17 @@ if __name__ == "__main__":
 
   * 균형 이진트리
     - 자식 노드의 추가 위치 상관없음, 왼쪽 오른쪽 레벨 차이 1 이하
-   
+  ![image](https://github.com/user-attachments/assets/d7c05fb8-e72a-49c3-9fee-a74f53d5f088)
+
   * 포화 이진트리
-    - 자식 노드가 모두 2개씩 연결
+    - 자식 노드가 가득찬 상태(모두 2개씩 연결)
   ![image](https://github.com/user-attachments/assets/14cd1534-9fe8-4f55-b006-2e7b04e4a3a3)
 
+  * 일반 이진트리
+    - 균형도 포화도 아닌 이진트리
+  ![image](https://github.com/user-attachments/assets/26f2ec26-990f-4ffc-a08e-34ea75c169a7)
 
-  * 편향 이진트리
+  * 편향(사향) 이진트리
     - 자식 노드 한쪽에만 배치됨
   ![image](https://github.com/user-attachments/assets/a0c7c0da-ac7c-4c3f-bab3-ac19a28f1c3c)
 
