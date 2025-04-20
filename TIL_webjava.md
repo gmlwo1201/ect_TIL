@@ -328,16 +328,14 @@ private MobilePhone mobilePhone;
     - 클라이언트의 요청 URL 어떤 컨트롤러가 처리할지를 결정
   - RequestMappingHandlerAdapter
     - 핸들러 매핑 클래스에 의해 결정된 컨트롤러 호출하는 핸들러 아댑터 클래스
-    - DispatcherServlet의 처리 요청 변환해서 컨트롤러에게 전달 > 컨트롤러의 응답 결과를
-DispatcherServlet이 요구하는 형식으로 변환
+    - DispatcherServlet의 처리 요청 변환해서 컨트롤러에게 전달 > 컨트롤러의 응답 결과를 DispatcherServlet이 요구하는 형식으로 변환
 ## 자바 클래스 Bean 객체 설정
 * Spring MVC에서 사용할 Bean 객체 XML에 등록하지 않고 설정된 패키지 하위 경로의 모든 클래스 검색해 자동 등록
   - <context:component-scan base-package="com.springmvc.*" /> or <beans:bean class="com.springmvc.controller.HomeController"/>
   - @ 자동 감지 어노테이션
     - @(Component, Repository, Service, Controller, RestController, ControllerAdvice, Configuration)
   - @ 구성요소 클래스에서 자동 활성화하는 어노테이션
-    - @(Required, Autowired, PostConstruct, PreDestroy, Resource, 
- PersistenceContext, PersistenceUnit)
+    - @(Required, Autowired, PostConstruct, PreDestroy, Resource, PersistenceContext, PersistenceUnit)
 ## 정적 리소스 설정
 * 정적 리소스
   - 브라우저 요청 리소스가 이미 만들어져 있어 그대로 응답가능한 자원
