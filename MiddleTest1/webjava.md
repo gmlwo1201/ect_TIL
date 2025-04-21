@@ -3,7 +3,7 @@
 * 썬 마이크로시스템즈 제임스 고슬링 팀에서 개발한 객체지향 프로그래밍 언어
 * 1991년 그린 프로젝트 > 1995년 발표
 * 초기 가전제품 동작 프로그램
-* 현재 **웹 애플리케이션 서버 분야**에서 많이 사용됨
+* 현재 *웹 애플리케이션 서버 분야*에서 많이 사용됨
 * 2009~10 Oracle로 소유권 이전
 * 17년 Oracle은 Java EE를 Eclipse Foundation에 제출
   - Eclipse Foundation은 javax 및 java 상표 사용 합의 실패
@@ -25,7 +25,7 @@
   - Spring Beans, MVC, Web...
 * Spring WebFlux
   - Web Framework의 Reactive Stack
-  - 완전한 비차단* 지원
+  - *완전한 비차단* 지원
     > I/O 처리 시 스레드 대기X, 다른 작업 수행하도록 전환되는 방식
       비동기적 처리 방식 구현, 이벤트 루프 같은 구현체
 * Spring Boot
