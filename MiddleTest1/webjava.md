@@ -115,7 +115,9 @@ https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
 * 설정
   - 정적 리소스(이미지, js, css)를 웹 브라우저에 효율적으로 전달하도록 최적화된 캐시 헤더와 함께 제공하기 위한 핸들러 구성
   - Spring의 리소스 처리 통해 도달 가능한 모든 경로에서 리소스 제공
-  - <resources mapping="/resources/**" location="/resources/" />
+```java
+    <resources mapping="/resources/**" location="/resources/" />
+```
   - **위치='project'/src/main/webapp/WEB-INF/spring/servlet.xml**
 * resources 요소 속성
   - mapping
