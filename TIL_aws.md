@@ -48,6 +48,8 @@
       - 계정 dev1의 AZ-A와 계정 dev2의 AZ-A와 다른 위치(랜덤)
       - 보안 이슈, 한 AZ로 몰림 현상 방지
   - AWS 구조
+  ![image](https://github.com/user-attachments/assets/54c63458-3ef3-4218-8ca3-d2483d04879b)
+
 
 ## 엣지로케이션 (Edge location)
 * AWS의 CloudFront(CDN) 등의 여러 서비스들을 가장 빠른 속도로 제공(캐싱)하기 위한 거점
