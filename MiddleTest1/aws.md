@@ -173,7 +173,8 @@
   - 높은 내구성, 고가용성
   - OS 도움 없이 객체별 접근 가능, 데이터 저장/활용 용이
 
-## S3 스토리지 클래스 (이름 - 내구성 - 가용성 - AZ 수 - 최소 기간 - 사용 사례 - 고려 사항 / 아래로 갈 수록 비싸짐)
+## S3 스토리지 클래스
+* (이름 - 내구성 - 가용성 - AZ 수 - 최소 기간 - 사용 사례 - 고려 사항 / 아래로 갈 수록 비싸짐)
 * *Standard* - 99.999999% - 99.99 - 3개 이상 - X - 자주 액세스하는 데이터 - _
 * *Intelligant-Tiering* - .. - 99.99 - 3개 이상 - X - 액세스 패턴 예측 불가능한 데이터 - 객체별 액세스 패턴 모디터링 및 자동 요금 최적화 가능
 * *Standard-IA* - .. - 99.99 - 3개 이상 - 3개 이상 - 30일 - 수명 길고 자주 액세스하지 않는 데이터 - 객체당 검색 비용 발생
@@ -182,7 +183,7 @@
 * *Glacier Flexible* - .. - .. - 3개 이상 - 90일 - 장애 복구용, 백업 데이터 등 - 분~시간 단위 복원 시간 소요
 * *Glacier Deep Archive* - .. - .. - 3개 이상 - 90일 - 법적 보관 의무 있는 데이터 - 복원까지 최대 12시간 소요
 * *on Outposts* - _ - _ - 온프레미스 - _ - 온프레미스 환경에서의 데이터 저장 - 로컬 스토리지 환경, S3 SDK 및 IAM 연동 필요
-> 파일 저장 : Standard > Standard IA > Intalligent >  One Zone-IA
+> 파일 저장 : Standard > Standard IA > Intalligent >  One Zone-IA <br>
 > 아카이브 : Glacier > Glacier Flexible > Glacier Deep Archive
 
 ## 버킷, 객체
