@@ -139,21 +139,165 @@
   - 최소 권한 원칙(Least Privilige Principle) 준수 → 꼭 필요한 권한만 부여
   - IAM 액세스 키(access key) 노출 금지 → GitHub 등 코드 저장소에 올리지 않기
   - IAM 정책을 잘못 설정하면 보안 사고 발생 가능 → 사용자별 최소 권한 유지
+ 
+## EC2 생성
+* AWS 콘솔 로그인
+* EC2 서비스 접근(서울 리전)
+* 인스턴스 > 인스턴스 시작
+* 이름 설정 / 애플리케이션 및 이미지 : Amazon Linux 2 AMI
+* 인스턴스 유형 설정 (t3.nano ~> 비싸짐)
+* 키 페어 생성(있으면 선택, 생성 유형은 RSA, .pem/절대 공개X)
+* 보안 그룹 생성(있으면 선택)
+* 다음에서 SSH 트래픽 허용 체크 > 시작
 
-## S3 실습 내용
-* S3
+  - EC2: 가상 서버 제공하는 AWS 서비스
+  - 인스턴스: EC2에서 생성한 개별 가상 서버
+ 
+## PEM. PPK
+* PEM
+  - Linux, macOS에서 기본적으로 지원, ssh 명령어로 쉽게 사용 가능
+* PPK
+  - Windows에서 많이 사용하는 SSH 클라이언트인 PuTTY에서 사용
+
+## S3
 - AWS에서 EC2 서비스와 더불어 가장 오래되고 기본이 되는 객체 스토리지 서비스
 - Amazon S3 는 확장성, 내구성, 보안성 뛰어남
 - 99.9% (11 9's) 내구성 제공, 데이터 손실 최소화
 - 데이터 저장 공간 거의 무제한
 - 전 세계 수백만 기업의 데이터 저장하는 핵심 서비스
+* 특징
+  - 객체 스토리지 서비스: 파일 저장 전용(EBS/EFS 등 블록 스토리지와 구분) > 어플리케이션 설치 불가
+  - 글로벌 서비스 단위: 데이터는 특정 리전에 저장
+  - 무제한 용량 지원: 단일 객체는 0byte ~ 5TB 저장 가능
+  - 최소 3개 이상 물리적으로 분리된 가용 영역에 데이터 복제
+  - 높은 내구성, 고가용성
+  - OS 도움 없이 객체별 접근 가능, 데이터 저장/활용 용이
+
+## S3 스토리지 클래스 (이름 - 내구성 - 가용성 - AZ 수 - 최소 기간 - 사용 사례 - 고려 사항 / 아래로 갈 수록 비싸짐)
+* *Standard* - 99.999999% - 99.99 - 3개 이상 - X - 자주 액세스하는 데이터 - _
+* *Intelligant-Tiering* - .. - 99.99 - 3개 이상 - X - 액세스 패턴 예측 불가능한 데이터 - 객체별 액세스 패턴 모디터링 및 자동 요금 최적화 가능
+* *Standard-IA* - .. - 99.99 - 3개 이상 - 3개 이상 - 30일 - 수명 길고 자주 액세스하지 않는 데이터 - 객체당 검색 비용 발생
+* *One Zone-IA* - 99.9999% - 99.95 - 1개 - 30일 - 중요도 낮고 자주 액세스하지 않는 데이터 - 단일 AZ에만 저장, 더 낮은 내구성
+* *Glacier* - .. - 99.99(복원 후) - 3개 이상 - 90일 - 장기 보관 데이터(ex. 백업, 아카이브) - 즉시 엑세스 불가, 복원 시 지연
+* *Glacier Flexible* - .. - .. - 3개 이상 - 90일 - 장애 복구용, 백업 데이터 등 - 분~시간 단위 복원 시간 소요
+* *Glacier Deep Archive* - .. - .. - 3개 이상 - 90일 - 법적 보관 의무 있는 데이터 - 복원까지 최대 12시간 소요
+* *on Outposts* - _ - _ - 온프레미스 - _ - 온프레미스 환경에서의 데이터 저장 - 로컬 스토리지 환경, S3 SDK 및 IAM 연동 필요
+> 파일 저장 : Standard > Standard IA > Intalligent >  One Zone-IA
+> 아카이브 : Glacier > Glacier Flexible > Glacier Deep Archive
+
+## 버킷, 객체
+* 버킷
+  - S3에서 저장 공간 구분하는 단위(디렉토리 개념)
+  - 전 세계 고유 이름 가져야 함 > 리전과 무관하게 중복 불가
+  - 한번 생성 시 이름 변경 불가
+* 객체
+  - S3에 저장되는 기본 매체
+  - Owner: 소유자 정보
+  - Key: 객체 이름(경로 역할)
+  - Value: 파일 데이터 객체
+  - Version ID: 파일 버전 식별자(버전 관리 활성화 시에만 생성)
+  - Metadata: 파일 관련 정보(기본 메타데이터 외 사용자 정의도 가능)
+
+## S3 실습 내용
+* 버킷 생성
+  - 암호화 유형 - Amazon S3 관리형 키(SSE-S3) 사용한 서버 측 암호화
+  - 버킷 키 - 활성화
+* 버킷에 index.php 넣기
+* ec2 생성
+* IAM 인스턴스 프로파일 - 본인 계정 선택
+* 사용자 데이터 넣고 인스턴스 시작
+```
+#!/bin/bash
+yum install httpd php -y
+aws s3 cp s3://sgu-202500-s3/index.php /var/www/html --region ap-northeast-2
+systemctl restart httpd
+```
+
 
 ## Security Group
-> EC2 생성 > 보안그룹 생성 > 인스턴스 시작 > EC2 보안 > 보안그룹 > 인바운드 규칙 편집 > 규칙 추가 > 모든 ICMP-IPv4 > 내IPT > 규칙 저장
+> EC2 생성 > 보안그룹 생성 > 인스턴스 시작 > EC2 보안 > 보안그룹 > 인바운드 규칙 편집 > 규칙 추가 > 모든 ICMP-IPv4 > 내IP > 규칙 저장
+
+## 인스턴스 유형 변경
+* *인스턴스 중지* > 인스턴스 설정 > 인스턴스 유형 변경
+
+## EC2 모니터링
+* 생성한 EC2 PuTTY로 접근
+* 슈퍼 유저로 변경: sudo su -
+* http 데몬 설치: yum install httpd -y
+* http 데몬 실행: systemctl start httpd
+* index.html 만들기: cd /var/www/html/, vi index.html
+* 이렇게만 하고 ec2 IP 검색하면 안나옴 > EC2 인스턴스 모니터링 설정 필요
+
+## EC2 인스턴스 모니터링 설정
+* 모니터링 탭
+* 대시보드에 추가 > 새로 생성
+* 새 대시보드 이름 입력 > 생성
+* 대시보드에 추가 > 저장
+* 인스턴스 세부 모니터링 관리 활성화
+
+## 경보 생성
+* Cloud Watch > 경보 생성 > 지표 선택 > CPUUtilization > 인스턴스 별 지표 > 나의 인스턴스 체크 > 옵션 > 누적 면적 > 지표 선택
+* 기간 설정 > 임계 값 설정 > 추가 구성 펼치기 > 누락된 데이터 처리 > 다음
+* 새 주제 생성 > High_CPU_Alarm > 알림 수신할 이메일 > 이메일에서 구독 승인
+
+* 경보 울리기
+  - Amazon Linux 리포지토리 package 활성화: amazon-linux-extra install -y epel
+  - CPU 부하 설정 툴 설치: yum install -y stress-ng
+  - CPU 부하 발생: stress-ng --cpu 1 --timeout 10m --metrics --times
+  - 네트워크 경고 만들기
+  - sudo yum install -y inperf3
+  - iperf3 -s & (서버 모드 활성화) > iperf3 -s & sleep 2 && stress-ng --cpu 1 --timeout 10m --metrics --times & iperf3 -c 127.0.0.1 -t 600 -b 100M (네트워크 부하 발생)
+  - CloudWatch 지표: NetworkOut, 임계 값 설정, ec2 재기동 > 이메일 알람
 
 ## 특정 IP에서만 다운로드 허용하는 법
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "PublicWebsiteAllow",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:GetObject",
+            "Resource": [
+                "arn:aws:s3:::sgu-202500-s3-test/index.html",
+                "arn:aws:s3:::sgu-202500-s3-test/class/img/*"
+            ],
+            // 접근 허용할 IP
+            "Condition": {
+                "IpAddress": {
+                    "aws:SourceIp": "123.123.123.123"
+                }
+            }
+        },
+        // Resource에 입력한 폴더 다운로드 제한
+        {
+            "Sid": "DenyGetObject",
+            "Effect": "Deny",
+            "Principal": "*",
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::sgu-202500-s3-test/class/test/*"
+        }
+    ]
+}
+```
 
 ## S3에서 JSON 사용
+
+## 특정 S3 버킷에 읽기 권한만 부여
+* 권한 설정 추가
+```
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "s3:GetObject",
+      "Resources": "arn:aws:s3:::my-bucket-name/*"
+    }
+  ]
+}
+```
 
 ## S3에서 정적 화면 출력 방법
 1. 퍼블릭 엑세스 허용
@@ -163,6 +307,59 @@
 5. html 접근해 객체 URL 복사
 6. S3 버킷 권한 추가
 7. 웹 브라우저에 url 입력
+
+## S3 버킷 정책
+* 언제, 어디서, 누가, 무엇을, 어떻게 할 수 있는지 정의
+* ex. arn:aws:s3:::my-bucket/images/* > 해당 경로에 있는 모든 객체 대상으로 권한 설정
+* 익명 사용자/다른 계정에 대한 권한 부여 가능
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "PublicWebsiteAllow",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:GetObject",
+            "Resource": [
+                "arn:aws:s3:::sgu-202500-s3-test/index.html",
+                "arn:aws:s3:::sgu-202500-s3-test/class/img/*"
+            ]
+        }
+    ]
+}
+```
+* class/img/만 허용
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "PublicWebsiteAllow",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:GetObject",
+            "Resource": [
+                "arn:aws:s3:::sgu-202500-s3-test/index.html",
+                "arn:aws:s3:::sgu-202500-s3-test/class/img/*"
+            ]
+        }
+    ]
+}
+```
+
+## S3 보안
+* 모든 객체는 기본적으로 비공개 상태로 생성
+* 퍼블릭 접근은 명시적으로 허용해야 함(웹 호스팅 등)
+* Bucket Policy: 버킷 단위 정책
+* IAM 정책
+  - Identity-based Policy (자격 증명 기반 정책)
+    - IAM 사용자, 그룹, 역할에 부여하는 정책
+    - "누가 무엇을 할 수 있는가" 설정
+  - Resource-based Policy (리소스 기반 정책)
+    - 리소스(S3, SQS 등)에 직접 부여하는 정책
+    - "이 리소스에 누가 접근 가능한가" 정의
+
 
 ## 클라우드 컴퓨팅 장점 - 온디맨드/내구성/고가용성
   - 온디맨드 : IT자원을 사용자가 필요할 때 원하는 만큼 즉각적으로 제공할 수 있음
@@ -190,6 +387,7 @@
 ![image](https://github.com/user-attachments/assets/8ac4f86d-318c-498d-9173-330aaab43875)
 
 ## 정적 호스팅 실습 내용
+
 
 ## *ALB*, ELB 특징
 * ELB 특징
