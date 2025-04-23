@@ -213,7 +213,6 @@ aws s3 cp s3://sgu-202500-s3/index.php /var/www/html --region ap-northeast-2
 systemctl restart httpd
 ```
 
-
 ## Security Group
 > EC2 생성 > 보안그룹 생성 > 인스턴스 시작 > EC2 보안 > 보안그룹 > 인바운드 규칙 편집 > 규칙 추가 > 모든 ICMP-IPv4 > 내IP > 규칙 저장
 
@@ -370,6 +369,11 @@ systemctl restart httpd
   - 예상치 못한 트래픽 폭주 대응
   - 빅데이터, 인공지능 서비스 확장
 
+## AWS CLI
+* Amazon Web Service Command Line Interface
+* AWS 리소스(S3, EC2, IAM 등)를 터미널이나 명령 프롬프트로 제어할 수 있는 도구
+* 콘솔 클릭 없이 명령어만으로 S3 버킷 생성, 파일 업로드, EC2 실행 같은 작업 가능
+
 ## CLI 명령어
   - aws s3 ls : 버킷 목록 확인
   - **aws s3 ls s3://버킷이름/** : 버킷 내부 파일 목록
@@ -408,6 +412,33 @@ systemctl restart httpd
 ![image](https://github.com/user-attachments/assets/3bae189b-19ad-4c9f-95bc-44f174752d28)
 
 ## ALB 실습 내용
+* 시작 템플릿 > 작업 > 템플릿 수정(새 버전 생성)
+* 고급 세부정보 > 사용자 데이터 수정 > 템플릿 버전 생성
+* 사용자 데이터(인스턴스 ID 가져오는 스크립트)<br>
+```
+#!/bin/bash
+yum install httpd -y
+systemctl enable httpd
+systemctl start httpd
+TOKEN=$(curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
+INSTANCE_ID=$(curl -H "X-aws-ec2-metadata-token: $TOKEN" -s http://169.254.169.254/latest/meta-data/instance-id)
+echo "$INSTANCE_ID" > /var/www/html/index.html
+```
+* 시작 템플릿 > 작업 > 템플릿으로 인스턴스 시작 > 최신 버전으로 인스턴스 시작
+* 로드 밸런싱 > 대상 그룹 > 대상 그룹 생성 - 기본 구성: 인스턴스
+* 생성한 EC2 체크 > 아래에 보류 중인 것으로 포함 > 대상 그룹 생성
+* 로드 밸런서 생성 - Application Load Balancer 생성
+* 인터넷 경계 체계, 가용 영역 전부 선택, 본인 보안 그룹 선택
+* 리스너 및 라우팅: 포트 80 내가 생성한 대상 그룹에 전달 > 로드 밸런서 생성 > 활성화 전 *프로비저닝* > DNS 정보 복사 > 검색
+
+## 경로 기반 리디렉션
+* 버킷 속성 > 정적 웹 사이트 호스팅 활성
+* 인덱스 문서 기입
+* 버킷 웹 사이트 엔트포인트 확인
+* 해당 ALB 클릭 > 리스너 규칙 추가 - 이름: redirection to S3
+* 조건 추가 > 경로 선택 > 경로: /s3
+* URL로 리디렉션 > 부분URL > 사용자 지정 호스트, 경로, 쿼리 체크 > 해당 S3 엔드포인트 > 경로 /s3 > 상태코드 302 > 다음
+* 우선 순위: 1 > 생성
 
 ## VPC 정의
 - VPC (Virtual Private Cloud): AWS 내 네트워크 구성
