@@ -43,32 +43,6 @@
   - CPU 사용률, 네트워크 트래픽, 메모리 등 모니터링
   - 조건 충족 시 Scaling Policy 트리거
   - 실시간 알람 + 로그 기록 가능
- 
-## Auto Scaling 생성
-* Auto Scaling 그룹 생성 > 그룹 이름 지정 > 시작 템플릿 생성
-* 시작 템플릿 > AMI: Amazon Linux 2 / 인스턴스 유형, 키 페어, 보안 그룹 입력 > 고급 세부정보 > 사용자 데이터 추가
-* 사용자 데이터 > 생성<br>
-```
-#!/bin/bash
-yum update -y
-amazon-linux-extras install -y epel
-yum install -y httpd stress-ng
-systemctl enable httpd
-systemctl start httpd
-echo "Hello from Auto Scaling Instance" > /var/www/html/index.html
-```
-* 생성한 시작 템플릿 선택 > 가용영역 선택 > 로드 밸런서 없음 > 상태 확인 유예기간(인스턴스가 부팅되자마자 "상태 확인 실패"로 종료되지 않게 유예시간 주는 설정
-* *ASG 용량 설정* - 최소 용량 ≤ 원하는 용량 ≤ 최대 용량 > 생성
-
-## 임계치 EC2 실습
-* Auto Scaling 구성 수정 - 용량 줄이면 생성된 EC2 종료되어 용량 맞춤(늘리면 추가 생성됨)
-* 용량 자동 조정: Automatic scaling > 동적 크기 조정 정책 생성 > 정책 유형: 대상 추적 크기 조정/크기 조정 정책 이름: Target Tracking Policy/지표 유형: 평균 CPU 사용률/대상 값, 인스턴스 워밍업 입력
-* 해당 ec2 PuTTY로 접근: PuTTY > stress-ng --cpu 2 --timeout 10m --metrics --times
-* CPU 임계치가 정상으로 돌아오면 > ec2 개수 하나로 유지
-
-## 특정 시간대에 EC2 증가
-* EC2 > Auto Scaling Group > Automatic scaling > 예약된 작업 생성
-* ASG 용량 설정 > 반복 여부 > 표준 시간대, 특정 시작 시간 설정
   
 ## 온프레미스, 클라우드 정의 (P, S...)
 * 온프레미스 - 전통적인 방법
