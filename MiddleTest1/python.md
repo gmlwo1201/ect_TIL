@@ -4,7 +4,7 @@
 # 코드 정리
 
 ## 스택
-```
+```python
 stk = [10, 20, 30]
 print(f'기존 값 : {stk}')
 stk.append(40)  # stack에 40 추가
@@ -16,7 +16,7 @@ print("topNum = "  , topNum)
 print(f'40 삭제 후 결과 = {stk}')
 ```
 ## push, pop
-```
+```python
 def push(item):
     global top
     stack.append(item)
@@ -56,7 +56,7 @@ if __name__ == "__main__":
 ```
 
 ## 스택 수열
-```
+```python
 ## 1~n까지 수 스택에 저장, 출력하는 방식으로 수열을 만든다.
 ## 스택에 push 하는 순서는 오름차순
 ## 수열이 주어지면 위의 방식으로 스택을 이용해 수열을 만들 수 있는지 확인
@@ -90,7 +90,7 @@ else:
 ```
 
 ## 리스트
-```
+```python
 class SList:
     class Node:
         def __init__(self, item, link):
@@ -256,7 +256,7 @@ if __name__ == "__main__":
 ```
 
 ## 큐
-```
+```python
 class LinkedQueue:
     class Node:
         def __init__(self, item, next):
@@ -327,7 +327,7 @@ if __name__ == "__main__":
 ```
 
 ## 큐 카드 게임
-```
+```python
 from collections import deque
 
 N = int(input("카드 장 수 = "))
@@ -436,7 +436,7 @@ print(deque[0])
   - 스크롤
   - 문서 편집기 등의 undo 연산
   - 웹 브라우저 방문기록 등
-    @ 최근 방문한 웹 페이지 주소는 앞에 삽입, 일정 수의 새 주소 삽입되면 뒤에서 삭제 진행
+    > 최근 방문한 웹 페이지 주소는 앞에 삽입, 일정 수의 새 주소 삽입되면 뒤에서 삭제 진행
 * 특징
   - 데크는 이중 연결 리스트로 구현하는 것이 편리
   - 단순 연결 리스트는 노드의 이전 노드 레퍼런스 알아야 삭제 가능
