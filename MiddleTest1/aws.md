@@ -283,6 +283,7 @@ systemctl restart httpd
 ```
 
 ## *S3에서 JSON 사용
+* 버킷 정책: JSON 포멧 문서
 
 ## 특정 S3 버킷에 읽기 권한만 부여
 * 권한 설정 추가
