@@ -1,5 +1,5 @@
 # AWS 중간고사 대비
-## 스케일 업/아웃(Vertical, Horizental)
+## *스케일 업/아웃(Vertical, Horizental)
 * Scale-Up (Vertical Scaling)
 ![image](https://github.com/user-attachments/assets/7cecb4b5-0d7c-4db0-9a1d-a39773658991)
 
@@ -19,7 +19,7 @@
   - 복잡한 아키텍쳐
   - Load Balancer(ELB) 등 구성 필요
 
-## Auto Scaling Group(설정값)
+## *Auto Scaling Group(설정값)
 * Launch Template
   - 새 인스턴스를 생성할 때 필요한 설정을 담고 있는 설계도
   - 어떤 AMI(이미지)로 만들지
@@ -44,7 +44,7 @@
   - 조건 충족 시 Scaling Policy 트리거
   - 실시간 알람 + 로그 기록 가능
   
-## 온프레미스, 클라우드 정의 (P, S...)
+## *온프레미스, 클라우드 정의 (P, S...)
 * 온프레미스 - 전통적인 방법
   - 사용자 입장에서 공간, 자원 등 모은 것을 자체적으로 구축 및 운영하는 방식
 * 클라우드
@@ -60,7 +60,7 @@
     > Amazon WorkDocs, Amazon Chrime, AWS Managed Services (기업이 Amazon Chime 통해 원격 회의 진행)
     > 타 클라우드 : Google Workspace, GitHub, Dropbox, Microsoft365
 
-## 리전, 가용영역
+## *리전, 가용영역
 * 리전
   - 가장 큰 단위, 리전 안에 다양한 가용영역 존재
   - AWS의 서비스가 제공되는 서버의 물리적 위치
@@ -92,7 +92,7 @@
   - AWS 구조
   ![image](https://github.com/user-attachments/assets/de7846f9-c40e-4999-b710-f92c24b83360)
 
-## 엣지 로케이션
+## *엣지 로케이션
 * AWS의 CloudFront(CDN) 등의 여러 서비스들을 가장 빠른 속도로 제공(캐싱)하기 위한 거점
 * Global Accelerator와 유저를 연결하는 거점
   - 출장소 같은 개념보안 이슈, 한 AZ로 몰림 현상 방지
@@ -101,7 +101,7 @@
   - ex) 미국에 있는 넷플릭스 한국에서 볼 때, 아프리카에 있는 트위치 한국에서 볼 때
 * 엣지로케이션 없으면 : 느림, 스트리밍 불가
 
-## 글로벌/리전 서비스
+## *글로벌/리전 서비스
 * 서비스 종류
   - AWS에는 서비스 제공되는 지역의 기반에 따라 글로벌 서비스와 리전 서비스로 분류
 * 글로벌 서비스
@@ -111,7 +111,7 @@
   - 특정 리전을 기반으로 데이터 및 서비스 제공
   - 대부분 지역 서비스
 
-## IMA, *MFA*
+## *IMA, *MFA*
 * AWS 리소스에 대한 접근을 안전하게 제어하는 서비스
 * 누가(AWS 사용자)가 어떤 AWS 서비스에 어떤 권한으로 접근할 수 있는지를 관리하는 역할
 * IAM 요소
@@ -199,7 +199,7 @@
   - Version ID: 파일 버전 식별자(버전 관리 활성화 시에만 생성)
   - Metadata: 파일 관련 정보(기본 메타데이터 외 사용자 정의도 가능)
 
-## S3 실습 내용
+## *S3 실습 내용
 * 버킷 생성
   - 암호화 유형 - Amazon S3 관리형 키(SSE-S3) 사용한 서버 측 암호화
   - 버킷 키 - 활성화
@@ -214,7 +214,7 @@ aws s3 cp s3://sgu-202500-s3/index.php /var/www/html --region ap-northeast-2
 systemctl restart httpd
 ```
 
-## Security Group
+## *Security Group
 > EC2 생성 > 보안그룹 생성 > 인스턴스 시작 > EC2 보안 > 보안그룹 > 인바운드 규칙 편집 > 규칙 추가 > 모든 ICMP-IPv4 > 내IP > 규칙 저장
 
 ## 인스턴스 유형 변경
@@ -249,7 +249,7 @@ systemctl restart httpd
   - iperf3 -s & (서버 모드 활성화) > iperf3 -s & sleep 2 && stress-ng --cpu 1 --timeout 10m --metrics --times & iperf3 -c 127.0.0.1 -t 600 -b 100M (네트워크 부하 발생)
   - CloudWatch 지표: NetworkOut, 임계 값 설정, ec2 재기동 > 이메일 알람
 
-## 특정 IP에서만 다운로드 허용하는 법
+## *특정 IP에서만 다운로드 허용하는 법
 ```
 {
     "Version": "2012-10-17",
@@ -282,7 +282,7 @@ systemctl restart httpd
 }
 ```
 
-## S3에서 JSON 사용
+## *S3에서 JSON 사용
 
 ## 특정 S3 버킷에 읽기 권한만 부여
 * 권한 설정 추가
@@ -299,7 +299,7 @@ systemctl restart httpd
 }
 ```
 
-## S3에서 정적 화면 출력 방법
+## *S3에서 정적 화면 출력 방법
 1. 퍼블릭 엑세스 허용
 2. index.html 생성
 3. 사진 추가
@@ -361,7 +361,7 @@ systemctl restart httpd
     - "이 리소스에 누가 접근 가능한가" 정의
 
 
-## 클라우드 컴퓨팅 장점 - 온디맨드/내구성/고가용성
+## *클라우드 컴퓨팅 장점 - 온디맨드/내구성/고가용성
   - 온디맨드 : IT자원을 사용자가 필요할 때 원하는 만큼 즉각적으로 제공할 수 있음
   - Agility : 민첩성, 빠르고 혁신적으로 구축
   - Elastic : 탄력성, 확장가능, 손쉽게 확장 및 축소가능
@@ -375,7 +375,7 @@ systemctl restart httpd
 * AWS 리소스(S3, EC2, IAM 등)를 터미널이나 명령 프롬프트로 제어할 수 있는 도구
 * 콘솔 클릭 없이 명령어만으로 S3 버킷 생성, 파일 업로드, EC2 실행 같은 작업 가능
 
-## CLI 명령어
+## *CLI 명령어
   - aws s3 ls : 버킷 목록 확인
   - **aws s3 ls s3://버킷이름/** : 버킷 내부 파일 목록
   - **aws s3 cp 로컬경로 s3://버킷이름/경로** : 파일 업로드
@@ -384,7 +384,7 @@ systemctl restart httpd
     - 다운로드 : **aws s3 cp s3://my-bucket/folder ./local-folder --recursive**
     - 업로드: **aws s3 cp ./local-folder s3://my-bucket/folder --recursive**
 
-## ELB 정의
+## *ELB 정의
 * AWS에서 제공하는 트래픽 분산 서비스
 * 들어오는 어플리케이션 트래픽을 Amazon 인스턴스, 컨테이너, IP 주소, 람다 함수 같은 여러 대상에 자동 분산
 * 단일 가용영역, 여러 가용 영역에서 다양한 어플리케이션 부하 처리 가능
@@ -394,7 +394,7 @@ systemctl restart httpd
 ## 정적 호스팅 실습 내용
 
 
-## *ALB*, ELB 특징
+## **ALB*, ELB 특징
 * ELB 특징
   - 다수 서비스에 트래픽 분산 시켜주는 서비스
   - Health Check: 직접 트래픽 발생시켜 Instance 살아있는지 확인
@@ -412,7 +412,7 @@ systemctl restart httpd
   * 구성 예<br>
 ![image](https://github.com/user-attachments/assets/3bae189b-19ad-4c9f-95bc-44f174752d28)
 
-## ALB 실습 내용
+## *ALB 실습 내용
 * 시작 템플릿 > 작업 > 템플릿 수정(새 버전 생성)
 * 고급 세부정보 > 사용자 데이터 수정 > 템플릿 버전 생성
 * 사용자 데이터(인스턴스 ID 가져오는 스크립트)<br>
@@ -441,7 +441,7 @@ echo "$INSTANCE_ID" > /var/www/html/index.html
 * URL로 리디렉션 > 부분URL > 사용자 지정 호스트, 경로, 쿼리 체크 > 해당 S3 엔드포인트 > 경로 /s3 > 상태코드 302 > 다음
 * 우선 순위: 1 > 생성
 
-## VPC 정의
+## *VPC 정의
 - VPC (Virtual Private Cloud): AWS 내 네트워크 구성
   - 외부와 격리된 네트워크 만들기 위해 탄생
   - AWS 계정 전용 가상 네트워크
