@@ -61,5 +61,41 @@
 ...
 </http>
 ```
-> auto-config : 일반적인 웹 애플리케이션에 필요한 기본 보안 서비스 자동 설정
+> auto-config : 일반적인 웹 애플리케이션에 필요한 기본 보안 서비스 자동 설정 <br>
 > use-expressions : <intercept-url> 태그의 access 속성에서 스프링 표현 언어(SpEL)를 사용할 수 있는지 여부
+* <intercept-url> 태그
+  - 접근 권한에 대한 URL 패턴 설정
+  - <http> 태그 안에 여러 개 설정할 수 있고 선언된 순서대로 접근 권한 적용
+```java
+<http auto-config="true" use-expressions="true">
+  <intercept-url pattern="/admin/**" access="hasAuthority('ROLE_ADMIN')" />
+  <intercept-url pattern="/manager/**" access="hasRole('ROLE_MANAGER')" />
+  <intercept-url pattern="/member/**" access="isAuthenticated()" />
+  <intercept-url pattern="/**" access="permitAll" />
+</http>
+```
+> pattern: ant 경로 패턴(?: 문자 한 개와 매칭, *: 0개 이상의 문자와 매칭, **: 0개 이상의 디랙터리와 매칭)을 사용해 접근 경로 설정 <br>
+> access: pattern에 설정된 경로 패턴에 접근할 수 있는 사용자 권한 설정 <br>
+> requires-channel: 정의된 패턴 URL로 접근하면 설정된 옵션 URL로 리다이렉션 하도록 설정 ※ 옵션: http, https, any
+
+* 스프링 표현 언어(SpEL) 표현
+![image](https://github.com/user-attachments/assets/de9159f4-3adb-4a70-98c8-e09d24f86db1)
+
+* 사용자 권한(authentication) 태그
+  - 허가된 사용자의 아이디와 비밀번호 등 사용자 정보 직접 설정하는 데 사용
+```java
+<authentication-manager>
+  <authentication-provider>
+    <user-service>
+      <user name="admin" password="{noop}1234" authorities="ROLE_ADMIN, ROLE_USER"/>
+      <user name="manager" password="{noop}1235" authorities="ROLE_MANAGER"/>
+      <user name="guest" password="{noop}1236" authorities="ROLE_USER"/>
+    </user-service>
+  </authentication-provider>
+</authentication-manager>
+```
+> <authentication-manager>: 사용자 권한 인증 설정을 위한 최상위 태그 <br>
+> <authentication-provider>: 사용자 정보를 인증 요청하는데 사용 <br>
+> <user-service>: 사용자 정보(사용자ID, 암호, 권한 등)를 가져오는 데 사용 <br>
+> <user>: name, password, authorities 속성으로 사용자 정보를 표현
+
