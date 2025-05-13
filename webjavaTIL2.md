@@ -159,5 +159,16 @@
   > scope - var 설정 사용 가능한 범위 <br>
   > var - 접근 권한이 설정된 사용자를 변수로 재정의 설정 <br>
 
+# 로그인과 로그아웃 처리
+## <form-login> 태그
+* 인증되지 않은 사용자가 특정 경로에 접근하거나 사용자 인증이 필요할 때 로그인 페이지 보여주는데 사용
+![image](https://github.com/user-attachments/assets/74b35b41-c11e-47a9-ab3f-9eb6c9a23a0e)
 
+## <logout> 태그
+* 로그아웃 처리하는 방법 설정
+![image](https://github.com/user-attachments/assets/98ba249a-6377-4211-8645-343fe536a9a7)
 
+## authentication-provider 확장
+* 사용자 인증 정보를 security-context.xml 외부에서 공급받아 처리해야 할 경우
+  - UserDetailsService 구현하여 공급 가능
+  - 사용자 인증 정보를 DB 등에서 관리할 때 사용됨
