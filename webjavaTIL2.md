@@ -99,3 +99,65 @@
 > <user-service>: 사용자 정보(사용자ID, 암호, 권한 등)를 가져오는 데 사용 <br>
 > <user>: name, password, authorities 속성으로 사용자 정보를 표현
 
+## csrf
+* 교차 사이트 요청 위조(Cross-Site Request Forgery, CSRF)
+  - 신뢰할 수 있는 사용자 사칭해 웹 사이트에 원하지 않는 명령 보내는 공격
+  - ex) 만약 www.example.com에 인증된 사용자가 아래 태그가 포함된 사이트에 접속한다면...
+  > <img src="https://www.example.com/index.php?action=delete&id=123" />
+  ![image](https://github.com/user-attachments/assets/f5d17be7-ed26-4672-a754-5e907d4be3cd)
+
+## 뷰 페이지
+* 태그 라이브러리 선언
+  - 보안 정보에 접근하고 보안 제약 조건 적용하는 태그 라이브러리 선언
+  > <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+  - pom.xml 파일에 spring-security-tablibs.jar를 의존 라이브러리로 등록
+  ```java
+  <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-taglibs</artifactId>
+      <version>6.4.2</version>
+  </dependency>
+  ```
+
+## 권한 태그: <sec:authorize>
+* 권한 태그
+  - 태그 안 내용 실행할지 여부 결정
+  - <sec:authorize> 태그로 표현
+  ![image](https://github.com/user-attachments/assets/af85d189-4236-402f-b8de-098bff18561e)
+```java<%@ page contentType="text/html; charset=utf-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<html>
+<head>
+  <title>Security</title>
+</head>
+<body>
+  <h2>스프링 시큐리티 태그 예</h2>
+  <sec:authorize access="hasRole('ROLE_MANAGER')" var="isAdmin">
+    <p><h3>매니저 권한 화면입니다.</h3></p>
+  </sec:authorize>
+  <c:choose>
+    <c:when test="${isAdmin}">
+      <p>ROLE_MANAGER 권한 로그인 중입니다.</p>
+      <p><a href="<c:url value='/exam02' />">[웹 요청 URL /exam02로 이동하기]</a></p>
+    </c:when>
+    <c:otherwise>
+      <p>로그인 중이 아닙니다.</p>
+      <p><a href="<c:url value='/manager/tag' />">[웹 요청 URL /manager/tag로 이동하기]</a></p>
+    </c:otherwise>
+  </c:choose>
+</body>
+</html>
+```
+
+## 인증 태그: <sec:authentication>
+* 인증 태그
+  - 시큐리티 설정 파일에 저장된 현재 authentication 객체에 대한 접근 허용
+  - <security:authentication>으로 표현
+  - JSP에서 property 속성 사용하여 현재 authentication 객체에 직접 접근 가능
+  > property - 사용하려고 하는 authentication 객체의 속성 이름 <br>
+  > scope - var 설정 사용 가능한 범위 <br>
+  > var - 접근 권한이 설정된 사용자를 변수로 재정의 설정 <br>
+
+
+
