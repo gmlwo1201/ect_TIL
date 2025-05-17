@@ -172,3 +172,70 @@
 * 사용자 인증 정보를 security-context.xml 외부에서 공급받아 처리해야 할 경우
   - UserDetailsService 구현하여 공급 가능
   - 사용자 인증 정보를 DB 등에서 관리할 때 사용됨
+* security-context.xml에 authentication-provider 확장
+```java
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security" ...>
+...
+<authentication-manager>
+<authentication-provider user-service-ref="customUserService">
+<password-encoder ref="customPasswordEncoder"/>
+</authentication-provider>
+<!--
+<authentication-provider>
+<user-service>
+<user name="Admin" password="{noop}Admin1234" authorities="ROLE_ADMIN" />
+</user-service>
+</authentication-provider>
+-->
+</authentication-manager>
+<beans:bean id="customUserService" class="com.springmvc.service.CustomUserDetailsService" />
+<beans:bean id="customPasswordEncoder" class="com.springmvc.service.CustomPasswordEncoder" />
+<beans:bean id="mvcHandlerMappingIntrospector"
+class="org.springframework.web.servlet.handler.HandlerMappingIntrospector" />
+</beans:beans>
+```
+* UserDetailService 구현
+```java
+package com.springmvc.service;
+...
+public class CustomUserDetailsService implements UserDetailsService {
+@Override
+public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+if("Admin".equals(username)) {
+return new UserDetails() {
+@Override
+public Collection<? extends GrantedAuthority> getAuthorities() {
+return Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"));
+}
+@Override
+public String getPassword() {
+return "Admin1234";
+}
+@Override
+public String getUsername() {
+return "Admin";
+}
+};
+}
+return null;
+}
+}
+```
+> 사용자 인증 정보가 Database에 있다면 Database에서 조회하는 기능 구현
+* PasswordEncoder 구현
+```java
+package com.springmvc.service;
+import org.springframework.security.crypto.password.PasswordEncoder;
+public class CustomPasswordEncoder implements PasswordEncoder {
+@Override
+public String encode(CharSequence rawPassword) {
+return rawPassword.toString();
+}
+@Override
+public boolean matches(CharSequence rawPassword, String encodedPassword) {
+return rawPassword.equals(encodedPassword);
+}
+}
+```
+>  비밀번호를 암호화하여 저장했다면 암호화해서 비교하는 기능 구현
