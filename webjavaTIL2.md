@@ -239,3 +239,78 @@ return rawPassword.equals(encodedPassword);
 }
 ```
 >  비밀번호를 암호화하여 저장했다면 암호화해서 비교하는 기능 구현
+
+# 파일 업로드
+* 파일을 웹 클라이언트(웹 브라우저)에서 서버로 전송, 서버에서 파일 처리
+* HTTP에서는 파일 업로드 위해 multipart/form-data 형식의 프로토콜 사용
+
+## JEE Servlet에서 파일업로드 처리
+  * Servlet v3.0 이전
+    - Servlet API에서 파일업로드를 지원하지 않음
+    - Apache Commons Fileupload 등과 같은 외부 라이브러리을 이용하여 파일 업로드를 처리함
+  * Servlet v3.0 부터
+    - Servlet API에서 파일업로드를 지원
+    - Servlet API에서 지원하는 Fileupload를 이용하여 기능 구현
+## Springframework 6.0은 Servlet 6.0을 지원
+  * Springframework 6.0은 더 이상 Third-party Fileupload 기능을 지원하지 않음
+    - Servlet API에서 지원하는 Fileupload 기능을 사용해야 함
+  * 책에서는 Springframework 5.x 버전을 사용하여 Apache Commons Fileupload를 사용하고 있음
+
+## 파일 업로드 설정
+* 파일 업로드 처리할 Servlet에 Multipart 설정(web.xml)
+  - Servlet API 이용하여 파일 업로드 처리하는 설정
+```java
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee" ... version="6.0">
+<context-param>
+...
+<servlet>
+<servlet-name>appServlet</servlet-name>
+<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+<init-param>
+<param-name>contextConfigLocation</param-name>
+<param-value>/WEB-INF/spring/servlet-context.xml</param-value>
+</init-param>
+<load-on-startup>1</load-on-startup>
+<multipart-config>
+<location>C:\\webjavaapp\\{학번}\\upload</location><!-- 업로드 된 파일을 저장할 경로 -->
+<max-file-size>20971520</max-file-size><!-- 업로드 되는 파일들의 최대 크기 20MB -->
+<max-request-size>41943040</max-request-size><!-- multipart/form-data 요청의 최대 크기 40M -->
+<file-size-threshold>20971520</file-size-threshold><!-- 업로드된 파일이 디스크에 기록되는 크기 임계값 20MB -->
+</multipart-config>
+</servlet>
+...
+```
+* 스프링 애플리케이션에서 파일 업로드 처리
+  - 스프링 MVC에서 파일 업로드를 처리하는 Bean 설정
+    - servlet-context.xml
+  - 스프링6.0 부터는 StandardServletMultipartResolver만 지원함
+    - 이전 버전에서는 다양한 MultipartResolver를 지원했음
+```java
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:beans="http://www.springframework.org/schema/beans"
+xmlns:context="http://www.springframework.org/schema/context"
+xsi:schemaLocation="http://www.springframework.org/schema/mvc
+http://www.springframework.org/schema/mvc/spring-mvc.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/springbeans.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/springcontext.xsd">
+...
+<beans:bean id="multipartResolver"
+class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
+</beans:bean>
+</beans:beans>
+```
+* 파일 업로드 위한 HTML Form 태그
+  - <form> 태그의 method 속성은 반드시 POST 로 설정
+  - <form> 태그의 enctype 속성은 반드시 multipart/form-data 로 설정
+  - 파일을 선택할 수 있는 <input> 태그의 type 속성은 file로 설정
+```java
+<form action ="form" method="post" enctype="multipart/form-data">
+  <p>이름 : <input type="text" name="name"/></p>
+  <p>파일 : <input type="file" name="fileImage"/></p>
+  <p><input type="submit" value="전송하기"/></p>
+  <input type="reset" value="다시쓰기"/>
+</form>
+```
