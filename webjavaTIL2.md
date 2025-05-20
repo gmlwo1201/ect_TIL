@@ -314,3 +314,113 @@ class="org.springframework.web.multipart.support.StandardServletMultipartResolve
   <input type="reset" value="다시쓰기"/>
 </form>
 ```
+
+# MultipartFile 사용한 파일 업로드
+## MultipartFile 인터페이스
+* org.springframework.web.multipart.MultipartFile
+  - 수신된 멀티파트 요청에서 업로드된 파일 표현하는 인터페이스
+  - 파일 내용은 메모리에 저장되거나 디스크에 임시로 저장
+    - 개발자는 파일 내용 처리하거나 영구 저장소에 복사해야 함
+    - 임시 저장소는 요청 처리 끝나면 삭제됨
+![image](https://github.com/user-attachments/assets/a8c1b916-01c3-40ab-a915-810308482e9a)
+
+## RequestParam 이용한 파일 처리
+* 컨트롤러에서 멀티파트 요청 들어올 때 요청 처리 메소드의 매개변수에 @RequestParam이 적용된 MultipartFile 타입의 매개변수 사용
+```java
+package com.springmvc.chap09;
+...
+@Controller
+@RequestMapping("/exam01")
+public class Example01Controller {
+@GetMapping("/form")
+public String requestForm() {
+return "webpage09_01";
+}
+@PostMapping("/form")
+public String submitForm(@RequestParam("name") String name
+, @RequestParam("fileImage") MultipartFile file) {
+String filename = file.getOriginalFilename();
+File f = new File("c:\\upload\\" + name + "_" + filename); 
+try {
+file.transferTo(f);
+} catch (IOException e) {
+e.printStackTrace();
+}
+return "webpage09_submit";
+}
+}
+```
+## MultipartHttpServletRequest 이용한 파일 처리
+* 스프링에서 제공하는 HttpServletRequest/MultipartRequest 인터페이스 구현한 인터페이스
+* 일반 웹 요청과 멀티파트 파일 처리하기 위한 메소드 제공
+```java
+package com.springmvc.chap09;
+...
+@Controller
+@RequestMapping("/exam02")
+public class Example02Controller {
+@GetMapping("/form")
+public String requestForm() {
+return "webpage09_01";
+}
+@PostMapping("/form")
+public String submitForm(MultipartHttpServletRequest request){
+String name = request.getParameter("name");
+MultipartFile file = request.getFile("fileImage");
+String filename = file.getOriginalFilename();
+File f = new File("c:\\upload\\" + name + "_" + filename);
+try {
+file.transferTo(f);
+} catch (IOException e) {
+e.printStackTrace();
+}
+return "webpage09_submit";
+}
+}
+```
+![image](https://github.com/user-attachments/assets/31e45ce4-282b-4e3d-877f-b2ec8b61f6dc)
+
+## @ModelAttribute 이용한 파일 처리
+* 멀티파트 요청 매개변수와 동일한 이름으로 Java Bean 객체에 MultipartFile 타입의 속성 추가
+```java
+package com.springmvc.chap09;
+import org.springframework.web.multipart.MultipartFile;
+public class Member {
+private String name;
+private MultipartFile imageFile;
+public String getName() {
+return name;
+}
+public void setName(String name) {
+this.name = name;
+}
+public MultipartFile getImageFile() {
+return imageFile;
+}
+public void setImageFile(MultipartFile imageFile) {
+this.imageFile = imageFile;
+}
+}
+```
+
+# 실습 - 도서 이미지 저장 및 출력
+![image](https://github.com/user-attachments/assets/71486d98-f3af-4d94-8032-e64c1b9e3bea)
+
+* web.xml에 Fileupload Servlet 설정
+  - DispatcherServlet이 파일 업로드를 처리할 수 있도록 설정
+```java
+<multipart-config>
+  <location>C:\\webjavaapp\\{학번}\\upload</location><!-- 업로드 된 파일을 저장할 경로 -->
+  <max-file-size>20971520</max-file-size><!-- 업로드 되는 파일들의 최대 크기 20MB -->
+  <!-- multipart/form-data 요청의 최대 크기 40M -->
+  <max-request-size>41943040</max-request-size>
+  <file-size-threshold>20971520</file-size-threshold><!-- 업로드된 파일이 디스크에 기록되는 크기 임계값 20MB -->
+</multipart-config>
+```
+
+* application.properties
+  - 스프링 애플리케이션의 처리에 관련된 설정파일
+  - 설정 파일의 이름은 변경이 가능
+  - application.~ 이름은 스프링이 지원하는 표준 이름으로 Spring Boot에서는 기본 사용하는 이름
+* /src/main/resources/application.properties 파일에 업로드 경로 설정
+  > uploadPath=C:/webjavaapp/{학번}/upload/
