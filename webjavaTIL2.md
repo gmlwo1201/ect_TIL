@@ -493,3 +493,38 @@ public class Example02Controller {
 ```
 
 ## ExceptionHandler 이용한 컨트롤러 기반 예외처리
+* @ExceptionHandler
+  - 웹 요청에 따라 컨트롤러의 요청 처리 메소드를 실행하는 동안 예외 발생하면 이를 처리하기 위해 예외 처리 메소드에 사용
+> value - Class<? extends Throwable>[] - @@ExceptionHandler가 선언된 메소드가 처리할 예외 클래스 목록
+* @ExceptionHandler 이용한 예외 처리 메소드 설정 예
+```java
+package com.springmvc.chap10;
+...
+@Controller
+public class Example03Controller {
+  @GetMapping("/exam03")
+  public void handleRequest () {
+    throw new Example03Exception();
+  }
+  @ExceptionHandler(Example03Exception.class)
+  public ModelAndView handleException(Example03Exception ex) {
+    ModelAndView model = new ModelAndView(); 
+    model.addObject("errorMassage", ex.getErrMsg()); 
+    model.addObject("exception", ex);
+    model.setViewName("webpage10_03");
+    return model;
+  }
+} 
+```
+```java
+package com.springmvc.chap10;
+public class Example03Exception extends RuntimeException { 
+  public Example03Exception() {
+    super(); 
+  }
+}
+```
+
+## ControllerAdvice 이용한 전역 예외 처리
+* ControllerAdvice
+  - 하나의 컨트롤러가 아닌 여러 컨트롤러에서 발생하는 예외를 공통으로 처리
