@@ -528,3 +528,27 @@ public class Example03Exception extends RuntimeException {
 ## ControllerAdvice 이용한 전역 예외 처리
 * ControllerAdvice
   - 하나의 컨트롤러가 아닌 여러 컨트롤러에서 발생하는 예외를 공통으로 처리
+![image](https://github.com/user-attachments/assets/7ea11e98-ebd1-4d78-8ab8-103e47b93db1)
+
+* @ControllerAdvice 선언한 클래스 예
+```java
+package com.springmvc.chap10;
+
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.ModelAndView;
+
+@ControllerAdvice(basePackages={"com.springmvc"})
+public class Example04ExceptionHandler { 
+
+  @ExceptionHandler(value={RuntimeException.class})
+  private ModelAndView handleErrorMethod(Exception ex) {
+    ModelAndView modelAndView = new ModelAndView();
+    modelAndView.addObject("errorMassage", "Example04Exception 메시지입니다.");
+    modelAndView.addObject("exception", ex );
+    modelAndView.setViewName("webpage10_03");
+
+    return modelAndView;
+  }
+}
+```
