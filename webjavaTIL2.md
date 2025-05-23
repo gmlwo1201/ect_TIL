@@ -424,3 +424,72 @@ this.imageFile = imageFile;
   - application.~ 이름은 스프링이 지원하는 표준 이름으로 Spring Boot에서는 기본 사용하는 이름
 * /src/main/resources/application.properties 파일에 업로드 경로 설정
   > uploadPath=C:/webjavaapp/{학번}/upload/
+
+# 업로드 파일 다운로드
+## 파일 다운로드
+![image](https://github.com/user-attachments/assets/afdd9ca6-c872-4d8a-826a-54839ed586e8)
+
+# 예외 처리
+## 예외(exception)
+- 프로그램 실행 중에 발생한 오류나 예상치 못한 사건
+- 하드웨어와 소프트웨어 조건에 의해 발생 가능
+* 종류
+  - 코딩 오류
+  - 시스템 전원 고장
+  - 존재하지 않는 데이터 접근 시도
+  - 수치 오버 플로와 언더플로 등
+* 예외 처리
+  - 프로그램을 실행할 때 발생할 수 있는 예외 상황에 대비한 코드 작성하여 프로그램 비정상적 종료 방지
+  - 웹 애플리케이션에서는 모든 유형의 오류 발생 가능 > 예외 처리는 안전 측면에서 필수 구현 요건
+
+## 예외 처리 방법 종류
+* Spring Web MVC에서 예외 처리에 사용되는 어노테이션
+![image](https://github.com/user-attachments/assets/eab86474-047a-402f-88f8-ca153a1ba0d8)
+
+* ***우선순위***
+  1. Controller에 적용된 @ExceptionHandler
+  2. 공통적으로 적용된 @ControllerAdvice
+  3. Exception에 적용된 @ResponseStatus
+ 
+# @ResponseStatus 이용한 HTTP 상태 코드 기반 예외 처리
+## HTTP 상태코드
+* 웹 브라우저에서 보낸 HTTP 요청을 서버에서 처리한 결과가 정상적으로 처리되었거나 오류가 발생했는지를 코드화한 HTTP 응답 정보
+* 예) 요청 URL에 해당하는 서버 자원 없을 때 발생하는 오류 페이지
+![image](https://github.com/user-attachments/assets/48d2bf43-fe85-4b1e-8286-dcb49ca25121)
+
+* 주요 HTTP 상태 코드
+![image](https://github.com/user-attachments/assets/8503c2e4-cbaa-497b-8138-5277ebd5d772)
+
+## @ResponseStatus 이용한 예외 처리
+* @ResponseStatus
+  - 메소드 실행 중 예외가 발생하면 지정된 HTTP 상태 코드를 웹 브라우저에 전달
+  - ResponseStatusExceptionResolver가 처리
+    - DispatcherServlet에 기본적으로 등록되어 동작함
+* HTTP 400 코드 출력 예
+```java
+@ResponseStatus(value=HttpStatus.BAD_REQUEST, reason="요청이 실패했습니다.")
+```
+![image](https://github.com/user-attachments/assets/5fca276a-a130-428e-b701-7045da40dd43)
+
+* HTTP 404 코드 출력 예
+  - ***Exception 클래스에 어노테이션을 등록할 수 있을 때 사용 가능***
+```java
+...
+@ResponseStatus(value=HttpStatus.NOT_FOUND, reason="찾을 수 없습니다")
+public class Example02Exception extends Exception {
+  public Example02Exception(String message) { 
+    super(message);
+    System.out.print(message);
+  }
+}
+...
+@Controller
+public class Example02Controller {
+  @GetMapping("/exam02")
+  public void handleRequest () throws Exception {
+    throw new Example02Exception("Example02Exception 메시지 입니다");
+  }
+}
+```
+
+## ExceptionHandler 이용한 컨트롤러 기반 예외처리
