@@ -1,5 +1,16 @@
 # 웹자바프로그래밍 기말고사 시험 범위
 ## @ModelAttribute
+* 메소드 매개변수 or 메소드 반환 값 웹 뷰에 노출되는 명명된 모델 속성에 바인딩하는 어노테이션
+* @RequestMapping 메소드가 있는 컨트롤러 클래스에서 지원됨
+* JSP 폼에서 입력된 데이터가 컨트롤러에 전달되면 Java Bean 객체에 입력된 데이터 채움
+* 컨트롤러 안에 @RequestMapping 적용된 요청 처리 메소드의 매개변수에 설정해 사용
+```java
+public String method_name(@ModelAttribute 매개변수, 
+Model model) {
+  // model.addAttribute(...);
+  return "뷰이름";
+}
+```
 
 ## Redirect, Forward
 
