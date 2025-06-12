@@ -186,5 +186,60 @@ def lambda_handler(event, context):
 * Lambda 함수 체크
 * 대상 그룹 이름
 
-## ALB + S3 + Lambda
+## Lambda 규칙 추가
+* 해당 ALB > 리스너 규칙 추가
+* 대상 등록 > 생성한 람다 함수 선택 > 이름 지정
+* 조천 추가 > 경로 /lambda
+* 우선 순위 1로 지정
+* 작업: 대상 그룹으로 전달 > 대상 그룹 추가
+* 생성 > ALB DNS 이름 도메인 검색
 
+## ALB + S3 + Lambda
+* 코드
+```python
+import json # JSON 형식으로 응답을 구성하기 위한 모듈
+import boto3 # AWS 서비스(S3 등)를 사용하기 위한 SDK
+from datetime import datetime # 현재 시간 정보를 얻기 위한 모듈
+
+def lambda_handler(event, context):
+  # S3 클라이언트 생성 (S3에 접근하기 위한 boto3 객체)
+  s3 = boto3.client('s3')
+
+  # 업로드할 대상 버킷 이름
+  bucket_name = 'sgu-202500-3b'
+
+  # 파일을 저장할 경로
+  #(S3에서는 디렉터리 개념이 아니라 key prefix)
+  prefix = 'uploaded/'
+
+  # 현재 시간을 문자열로 포맷 (파일 이름에 포함시킬 용도)
+  now = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+
+  # 파일 이름 생성: 예) uploaded/hello_2025-05-07_14-00-00.txt
+  filename = f'{prefix}hello_{now}.txt'
+
+  # 파일 내용 구성
+  content = f'Hello Haeri! This file was created at {now}'
+
+  # S3에 파일 업로드
+  # Bucket: 업로드할 버킷 이름
+  # Key: 파일 경로 및 이름
+  # Body: 파일의 실제 내용
+  #(문자열을 UTF-8로 인코딩)
+  s3.put_object(
+    Bucket=bucket_name,
+    Key=filename,
+    Body=content.encode('utf-8')
+  )
+
+  # ALB가 Lambda로부터 기대하는 응답 형식
+  return {
+    "statusCode": 200, 
+    "statusDescription": "200 OK", 
+    "isBase64Encoded": False, # 바디 인코딩 여부 (파일이 아닌 경우 False)
+    "headers": {
+      "Content-Type": "application/json" 
+    },
+    "body": '{"message": "업로드 완료"}' 
+  }
+```
