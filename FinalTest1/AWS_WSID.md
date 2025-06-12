@@ -163,3 +163,28 @@ def lambda_handler(event, context):
 * Lambda에서 API Gateway 연결
 * Lambda 함수 > 트리거 추가 > 트리거 구성: API 게이트웨이/API 유형: HTTP API/보안: 열기
 * 포스트맨에서 POST에 API 엔드포인트 넣고 Body에 쿼리 추가
+
+# Lambda
+## DynammoDB와 연동하는 부분 나올수도
+
+## 기본 생성
+```python
+def lambda_handler(event, context):
+  return {
+    "statusCode": 200,
+    "statusDescription": "200 OK",
+    "isBase64Encoded": False,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": '{"message": "Hello Lambda "}'
+}
+```
+## Lambda Target 생성
+* 로드밸런싱 > 대상 그룹 > 대상 그룹 생성
+* 그룹 세부 정보 지정
+* Lambda 함수 체크
+* 대상 그룹 이름
+
+## ALB + S3 + Lambda
+
