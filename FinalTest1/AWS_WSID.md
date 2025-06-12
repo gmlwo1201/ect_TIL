@@ -243,3 +243,51 @@ def lambda_handler(event, context):
     "body": '{"message": "업로드 완료"}' 
   }
 ```
+
+## 람다 레이어
+* 람다 > 추가 리소스 > 계층 > 계층 생성
+* 이름, 설명, 파이썬에서 다운로드 받은 .zip 파일 업로드
+* 호환 런타임: python3.13 > 생성
+* 람다 함수 > Layers > Add a layer
+* 사용자 지정 계층 > 생성한 레이어 > 버전 1 > 추가
+* 라이브러리 추가하고 싶은 경우
+  1. cmd 관리자
+  2. cd aws_3b
+  3. py -3.13 -m pip install requests -t python/
+  4. 버전 생성 > 사용자 지정 계층 > 위에서 다운받은 파일로 레이어 생성 후 적용
+
+## request-get, post
+```python
+# get
+import requests
+
+def lambda_handler(event, context):
+  url = "https://httpbin.org/get"
+  response = requests.get(url)
+  data = response.json()
+
+  print("API 응답:", data)
+
+  return {
+    'statusCode': 200,
+    'body': str(data)
+  }
+```
+```python
+# post
+import requests
+import json
+
+def lambda_handler(event, context):
+  url = "https://httpbin.org/post"
+  payload = {"name": "test"}
+  response = requests.post(url, json=payload)
+  data = response.json()
+
+  print("API 응답:", data)
+
+  return {
+    'statusCode': 200,
+    'body': str(data)
+  }
+```
