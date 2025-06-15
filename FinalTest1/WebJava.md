@@ -184,12 +184,51 @@ public class BookController {
 ```
 
 ## Spring Security
+* 스프링 기반 애플리케이션의 사용자 정의 가능한 인증 및 접근제어 프레임워크
+* 스프링 기반 애플리케이션 보호 위한 스프링 프레임워크 내에서의 사실상 표준
+* 사용자 인증과 권한 부여 등을 효율적으로 구현 가능
+* 스프링 시큐리티 Maven 설정(pom.xml)
+  - spring-security-web
+    - 필터 및 웹 보안 인프라 관련 라이브러리
+    - 서블릿 API 종속성 있는 스프링 시큐리티 웹 인증 및 URL 기반 접근 제어할 때 필요
+  - spring-security-config
+    - 보안 네임 스페이스 구문 분석
+    - 구성을 위해 스프링 시큐리티 네임 스페이스 사용하는 경우 필요 > *-context.xml
+```
+<dependency>
+  <groupId>org.springframework.security</groupId>
+  <artifactId>spring-security-web</artifactId>
+<version>6.4.2</version>
+</dependency>
+<dependency>
+  <groupId>org.springframework.security</groupId>
+  <artifactId>spring-security-config</artifactId>
+  <version>6.4.2</version>
+</dependency>
+```
 
 ## Spring Security 설정 태그
+![image](https://github.com/user-attachments/assets/6b27a425-1fad-4bf1-a6ab-c535c206b17b)
 
 ## 접근 권한 태그
+* <http> 태그
+![image](https://github.com/user-attachments/assets/f6a0df77-12ae-468e-8ca1-c797323e0999)
 
-## form-login 태그
+* <intercept-url> 태그
+![image](https://github.com/user-attachments/assets/3c13699d-6cd6-4bc8-90f4-d7a46c099eaf)
+
+* 스프링 표현 언어(SpEL) 표현
+![image](https://github.com/user-attachments/assets/29d4ac64-55ee-4397-8950-18f62fbc007a)
+
+* 사용자 권한 태그
+![image](https://github.com/user-attachments/assets/3770bdd2-8087-41a9-a60e-08bd947b1222)
+
+## form-login, logout 태그
+* login
+![image](https://github.com/user-attachments/assets/a616a6ba-ee18-4a1e-82ef-2c9a8e1d6f6e)
+
+* logout
+![image](https://github.com/user-attachments/assets/3c4b52ad-42f2-487c-8768-6e33cb44d755)
 
 ## 파일 업로드
 
