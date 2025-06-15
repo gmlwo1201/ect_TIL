@@ -145,6 +145,43 @@ public class BookController {
 ![image](https://github.com/user-attachments/assets/e1aeab41-e497-4b1a-9555-2041acfc0c22)
 
 ## @InitBinder
+* 사용자가 입력한 데이터가 Java Bean 객체의 프로퍼티에 매핑되기 전에 데이터 바인딩하는 방법 변겅
+* WebDataBinder 객체 초기화하는 메소드와 함께 사용
+```java
+@InitBinder
+public void 메소드_이름(WebDataBinder binder, ...) {
+  ...
+}
+
+@InitBinder("Java Bean 객체 이름")
+public void 메소드_이름(WebDataBinder binder, ...) {
+  ...
+}
+```
+* 실습 적용 - BookController
+```java
+package com.springmvc.controller;
+...
+@Controller
+@RequestMapping("/books")
+public class BookController {
+  @Autowired
+  private BookService bookService;
+  ...
+
+  @ModelAttribute
+  public void addAttributes(Model model) {
+    model.addAttribute("addTitle", "신규 도서 등록");
+  }
+
+  @InitBinder
+  public void initBinder(WebDataBinder binder) {
+    binder.setAllowedFields("bookId", "name", "unitPrice", "author", "description"
+                          , "publisher", "category", "unitsInStock", "releaseDate"
+                          , "condition");
+  }
+}
+```
 
 ## Spring Security
 
