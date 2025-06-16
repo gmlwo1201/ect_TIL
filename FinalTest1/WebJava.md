@@ -272,6 +272,7 @@ public class BookController {
 ![image](https://github.com/user-attachments/assets/808ff887-0c68-44af-a3c6-5dd70d35662d)
 
 ## 예외 처리 방법
+* 각 어노테이션의 기능 범위, 사용 방법 알아둘 것
 ![image](https://github.com/user-attachments/assets/643ed5c1-c91d-43b4-ba22-60cc50e9b5c9)
 
 ## @ResponseStatus 이용한 예외 처리
@@ -406,11 +407,81 @@ public class CommonExceptionAdvice {
 }
 ```
 
-## 각 어노테이션의 기능 범위, 사용 방법
+## Log4j2
+* 산업용 Java 로깅 프레임워크
+* 다양한 사용 사례에 대한 배포 지원하는 API, 구현체로 구성됨
+* Apache Software Foundation에서 관리하는 프로젝트
+* Log4j 1.x
+  - 로깅 서비스 프로젝트 관리 위원회는 2015년 8월 5일 Log4j 1.x 버전의 지원을 중단함
+  - 여러 가지 보안 위협이 발견된 것이 원인
+  - Log4j 2 로 변환이 권고됨
+* 구조
+![image](https://github.com/user-attachments/assets/f36497ce-839d-4b77-bbb5-c1c27da2541a)
 
-## log4j2
-
-## log4j2 설정, 특징
+## Log4j2 설정, 특징
+* 위치 - src/main/resources/log4j2.xml
+```java
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration xmlns="https://logging.apache.org/xml/ns" xmlns:xsi="http://www.w3.org/2001/XMLSchemainstance"
+xsi:schemaLocation="https://logging.apache.org/xml/ns 
+https://logging.apache.org/xml/ns/log4j-config-2.xsd">
+  <Appenders>
+    <Console name="console">
+      <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{-10}:%L - %m%n"/>
+    </Console>
+  </Appenders>
+  <Loggers>
+    <Root level="INFO" additivity="false">
+      <AppenderRef ref="console"/>
+    </Root>
+    <Logger name="com.springmvc" level="DEBUG"/>
+    <Logger name="org.springframework.core" level="INFO"/>
+    <Logger name="org.springframework.beans" level="INFO"/>
+    <Logger name="org.springframework.context" level="INFO"/>
+    <Logger name="org.springframework.web" level="DEBUG"/>
+    <Logger name="org.springframework.security" level="DEBUG"/>
+    <Logger name="org.springframework.jdbc" level="DEBUG"/>
+  </Loggers>
+</Configuration>
+```
+* 과거 버전의 Log4j는 Log4j를 활성화 하기 위해 추가 설정이 필요, Log4j2에서는 log4j2.xml을 Classpath 경로에 생성해주기만 하면 자동으로 적용됨.
+* 실습 코드
+```java
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration xmlns="https://logging.apache.org/xml/ns" xmlns:xsi="http://www.w3.org/2001/XMLSchemainstance"
+xsi:schemaLocation="https://logging.apache.org/xml/ns 
+https://logging.apache.org/xml/ns/log4j-config-2.xsd">
+  <Appenders>
+    <Console name="console">
+      <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{-10}:%L - %m%n" />
+    </Console>
+    <RollingFile name="monitor" fileName="C:/webjavaapp/{학번}/logs/monitor.log"
+                  filePattern="C:/webjavaapp/{학번}/logs/monitor.%d{yyyy-MM-dd-hh-mm}.log">
+      <LevelRangeFilter minLevel="DEBUG" maxLevel="DEBUG"/>
+      <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{-10}:%L - %m%n" />
+      <Policies>
+        <SizeBasedTriggeringPolicy size="10KB"/>
+        <TimeBasedTriggeringPolicy interval="1"/>
+      </Policies>
+    </RollingFile>
+  </Appenders>
+  <Loggers>
+    <Root level="INFO" additivity="false">
+      <AppenderRef ref="console" />
+    </Root>
+    <Logger name="com.springmvc" level="DEBUG" >
+      <AppenderRef ref="monitor" />
+    </Logger>
+...
+  </Loggers>
+</Configuration>
+```
+* Policies
+  - 현재 로그 파일을 롤오버할 시점을 결정
+* SizeBasedTriggeringPolicy
+  - 파일이 지정된 크기에 도달하면 롤오버를 실행
+* TimeBasedTriggeringPolicy
+  - filePattern의 최소 시간 단위 값이 변경될 때 롤오버를 발생
 
 ## Interceptor
 
@@ -428,4 +499,3 @@ public class CommonExceptionAdvice {
 
 ## LocaleResolver 환경 설정
 
-## 실습 내용
