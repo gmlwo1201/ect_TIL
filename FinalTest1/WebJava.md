@@ -484,18 +484,165 @@ https://logging.apache.org/xml/ns/log4j-config-2.xsd">
   - filePattern의 최소 시간 단위 값이 변경될 때 롤오버를 발생
 
 ## Interceptor
+* 사용자가 URL을 요청하면 컨트롤러의 메소드 호출 전/후에 처리흐름을 가로채 특정 작업을 처리할 수 있음
+* HandlerInterceptor
+  - 컨트롤러에 들어오는 요청 HttpServletRequest와 응답하는 HttpServletResponse를 가로채 특별한 로직 처리할 수 있도록 지원하는 인터페이스
+* 예)
+  - 응답 페이지를 출력하기 전에 서버에서 미리 데이터를 가져오는 기능(spooling)
+  - 폼의 중복 제출을 차단하는 기능
+  - 요청이 처리되기 전에 파일을 업로드(multipart)하는 기능
+  - 각 요청에 대한 상세한 내역을 기록(logging)하는 기능
+  - 유효성을 검사(validation)하는 기능
+  - 시간별 동작 및 성능의 병목 지점을 검사(profiling)하는 기능
+* 생성, 등록 방법
+  - HandlerInterceptor 또는 AsyncHandlerInterceptor 인터페이스를 구현
+  - HandlerInterceptorAdaptor 클래스를 상속 받아 구현
+    - Springframework 5.3에서 Deprecated 되어 Springframework 6.x에서는 사용할 수 없음
+  - 등록 방법
+```java
+<!-- 모든 웹 요청 URL에 적용 -->
+<interceptors>
+  <beans:bean id="인터셉터 아이디"
+              class="패키지 경로를 포함한 인터셉터 클래스명" />
+</interceptors>
+<!-- 모든 웹 요청 URL에 적용 -->
+<interceptors>
+  <interceptor>
+    <mapping path="인터셉터를 적용할 요청 URL 패턴"/>
+    <beans:bean id="인터셉터 아이디"
+                class="패키지 경로를 포함한 인터셉터 클래스명" />
+  </interceptor>
+</interceptors>
+```
 
 ## HandlerInterceptor
+* 인터페이스
+```java
+public interface HandlerInterceptor {
+  /** 핸들러 실행 전의 인터셉션 지점.
+  * HandlerMapping이 적절한 핸들러 객체를 결정한 후 HandlerAdapter가 핸들러를 호출하기 전에 호출됨. 
+  * @param request 현재 HTTP request
+  * @param response 현재 HTTP response
+  * @param handler 실행을 위해 선택된 Handler
+  * @return true가 반환되면 다음 Interceptor 또는 Handler가 실행됨 */
+  boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler);
+
+  /** 핸들러를 성공적으로 실행한 후의 인터셉션 지점.
+  * HandlerAdapter가 실제로 핸들러를 호출한 후 DispatcherServlet이 뷰를 렌더링하기 전에 호출됨.
+  * 제공된 ModelAndView를 통해 뷰에 추가 모델 객체를 노출할 수 있음.
+  * @param request 현재 HTTP request
+  * @param response 현재 HTTP response
+  * @param handler 실행을 위해 선택된 Handler
+  * @param modelAndView Handler가 반환한 ModelAndView */
+  void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable ModelAndView modelAndView);
+
+  /** 요청 처리가 완료된 후(뷰를 렌더링한 후) 콜백.
+  * 핸들러 실행의 모든 결과에 대해 호출되므로 적절한 리소스 정리가 가능.
+  * @param request 현재 HTTP request
+  * @param response 현재 HTTP response
+  * @param handler 실행을 위해 선택된 Handler
+  * @param ex Handler 실행 중 예외가 발생했다면 예외 객체
+  void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable Exception ex);
+}
+```
+* HandlerInterceptorAdapter
+  - 상속받은 인터페이스의 기본 구현을 제공
+    - 필요한 메소드만 구현하면 되도록 지원하는 클래스
+  - Java 문법에서 interface 의 기본 구현을 지원함에 따라 필요 없어짐
+  - Springframework 6.x에서 제거됨
 
 ## Asynchronous Processing
+![image](https://github.com/user-attachments/assets/f69d1a1d-3807-431f-a0fc-b5ca0cb7001e)
 
 ## ThreadLocal
+* 스레드 별로 고유한 로컬 변수를 제공
+* get 또는 set 메서드를 통해 해당 변수에 접근하는 각 스레드가 독립적으로 초기화된 자체 복사본을 가짐
+  - 객체에 귀속되는 것이 아닌 스레드에 귀속된 변수
+* 상태를 스레드와 연결하려는 클래스의 비공개 정적 필드로 사용됨
+  - private static final
+* com.springmvc.interceptor 패키지 생성 및 MonitoringInterceptor 클래스 생성
+```java
+package com.springmvc.interceptor;
+...
+public class MonitoringInterceptor implements HandlerInterceptor {
+  private final Logger log = LoggerFactory.getLogger(MonitoringInterceptor.class);
+  ThreadLocal<StopWatch> stopWatchLocal = new ThreadLocal<StopWatch>();
+
+  @Override
+  public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    StopWatch stopWatch = new StopWatch(handler.toString());
+    stopWatch.start(handler.toString());
+    this.stopWatchLocal.set(stopWatch);
+    this.log.info("접근한 URL 경로: {}", this.getURLPath(request));
+    this.log.info("요청 처리 시작 시간: {}", this.getCurrentTime());
+    return true;
+  }
+
+  @Override
+  public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+    this.log.info("요청 처리 종료 시간: {}", this.getCurrentTime());
+  }
+
+  @Override
+  public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+    StopWatch stopWatch = this.stopWatchLocal.get();
+    stopWatch.stop();
+    this.log.info("요청 처리 소요 시간: {} ms", stopWatch.getTotalTimeMillis());
+    this.stopWatchLocal.set(null);
+  }
+
+  private String getURLPath(HttpServletRequest request) { 
+    String currentPath = request.getRequestURI();
+    String queryString = request.getQueryString();
+    queryString = queryString == null ? "" : "?" + queryString;
+    return currentPath + queryString;
+  }
+
+  private String getCurrentTime() {
+    DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    Calendar calendar = Calendar.getInstance();
+    calendar.setTimeInMillis(System.currentTimeMillis());
+    return formatter.format(calendar.getTime());
+  }
+}
+```
+* setvlet-context.xml 에 Interceptor 등록
+```
+<interceptors>
+  <beans:bean class="com.springmvc.interceptor.MonitoringInterceptor"/>
+</interceptors>
+```
 
 ## 메시지 리소드 파일 작성
+* 메시지 리소스 파일(*[언어코드[_국가코드]].properties)
+  - key=value 쌍으로 구성
+  - key는 뷰 페이지에서 메시지를 참조하는 데 사용됨
+    - 보통 소문자로 작성됨
+  - 기본 언어의 메시지 리소스 파일
+    - 파일이름.properties 형태로 작성
+![image](https://github.com/user-attachments/assets/5b002af4-3d02-49fb-a8d1-ad181353b9b8)
+
+* 파일 위치
+  - src/main/resources 폴더에 작성
+* 메시지 리소스 파일
+  - *.properties 파일은 ISO-8859-1 인코딩을 지원하나 UTF-8도 지원가능
 
 ## 뷰 페이지에 메시지 출력
+* 뷰 페이지 상단에 스프링의 태그 라이브러리 선언
+  - <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+* <spring:message> 태그를 사용하여 메시지 리소스의 메시지 출력
+![image](https://github.com/user-attachments/assets/a11e0e98-8bf2-4df7-9a69-2b15cbb96e70)
 
 ## 메시지 출력에 인자 사용
+* 메시지 정의
+  - 메시지에서 인자가 삽입될 부분을 {n} 형식으로 선언
+    - n: 0부터 시작하는 인자는 순번
+    - 언어에 따라 출력되는 파라미터의 순서가 달라질 수 있음
+      -addBook.form.param=파라미터 {0} 와 {1}
+* JSP에서메시지 인자 전달 및 출력
+  - <spring:message code="addBook.form.param" arguments="Banana,Apple"/>
+* 출력되는 메시지
+  - 파라미터 Banana 와 Apple
 
 ## LocaleResolver 환경 설정
-
+![image](https://github.com/user-attachments/assets/c41f6a1c-07fb-477f-bdac-1d3f1e0ba6c8)
