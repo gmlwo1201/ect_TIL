@@ -97,4 +97,209 @@ return 배열 A
 * 동일한 증가율 의미
 
 # 코드 모음
-## 
+## 깊이 우선 탐색 코드
+```python
+n, m = map(int, input().split())
+graph = [[] for _ in range(n+1)]
+
+for _ in range(m):
+    a, b = map(int, input().split())
+    graph[a].append(b)
+    graph[b].append(a)
+
+def dfs(node):
+    # 노드 방문체크
+    visited[node] = True
+    # 시작점 기준으로 깊이 우선 탐색
+    for next in graph[node]:
+        if not visited[next]:
+            dfs(next)
+
+count = 0
+visited = [False] * (n+1)
+for i in range(1, n+1):
+    if not visited[i]:
+        dfs(i)
+        count += 1
+
+print(count)
+```
+
+## 깊이 우선 탐색 연결 요소 개수
+```python
+import sys
+sys.setrecursionlimit(10000)
+inpuy = sys.stdin.readline
+n,m = map(int, input().split())
+
+A = [ [] for _ in range(n+1) ]
+visited = [False] * (n+1)
+
+def DFS(v):
+    visited[v] = True
+    for k in A[v]:
+        if not visited[k]:
+            DFS(k)
+
+for _ in range(m):
+    s , e = map(int, input().split())
+    A[s].append(e)
+    A[e].append(s)
+
+print("A = ", A)
+
+## 연결 요소의 개수 저장할 변수
+count = 0
+for i in range(1, n + 1):
+    if not visited[i]:
+        count += 1
+        DFS(i)
+
+print("연결 요소의 갯수 = %d" % count)
+```
+
+## 깊이, 너비 우선 탐색 연결 요소 개수
+```python
+N,M,V= map(int,input().split())
+
+graph = [[] for _ in range(N+1)]
+for _ in range(M):
+    a,b = map(int,input().split())
+    graph[a].append(b)
+    graph[b].append(a)
+
+for i in graph:
+    i.sort()
+
+def dfs(start):
+    print(start,end=' ')
+    visited_dfs[start]=True
+    for next_node in graph[start]:
+        if not visited_dfs[next_node]:
+            dfs(next_node)
+
+from collections import deque            
+def bfs(start):    
+    q=deque()
+    q.append(start)
+    visited_bfs[start]=True
+    
+    while q:
+        cur_node = q.popleft()
+        print(cur_node,end=' ')
+        for next_node in graph[cur_node]:
+            if not visited_bfs[next_node]:
+                q.append(next_node)
+                visited_bfs[next_node]=True
+
+
+visited_dfs = [False]*(N+1)                
+dfs(V)    
+print()
+visited_bfs = [False]*(N+1)                
+bfs(V)
+```
+
+## 이진 트리 탐색
+```python
+class TreeNode:
+    def __init__(self):
+        self.left = None
+        self.data = None
+        self.right = None
+
+# 전역변수 선언 부분 #
+memory = [ ]
+root = None
+nameList = ['A', 'B', 'C', 'D', 'E', 'F']
+
+def inorderTraversal(node):
+    if node is not None:
+        inorderTraversal(node.left)
+        print(node.data, end=" ")
+        inorderTraversal(node.right)
+
+# Main Code #
+# 이진탐색 트리 생성 #
+if __name__ == "__main__":
+    node = TreeNode() # __init__(self) 생성자 호출
+    node.data = nameList[0]
+    root = node
+    memory.append(node)
+
+    for name in nameList[1 : ]:
+        node = TreeNode()
+        node.data = name
+        current = root
+
+        while True:
+            if name < current.data:
+                if current.left == None:
+                    current.left = node
+                    break
+                current = current.left
+            else:
+                if current.right == None:
+                    current.right = node
+                    break
+                current = current.right
+
+        memory.append(node)
+
+    print("이진탐색 트리 구성 완료")
+    print("memory 리스트의 값 출력")
+    for node in memory:
+        print(node.data, end=" ")
+
+    print("이진탐색트리를 중위순회한 결과")
+    inorderTraversal(root)
+```
+
+## 이진 탐색으로 정수 찾기
+```python
+import sys
+
+input = sys.stdin.readline
+
+# 1. N 입력
+N = int(input())
+
+# 2. N개의 정수 입력받아 NumList에 저장
+NumList = list(map(int, input().split()))
+
+# 3. NumList 오름차순 정렬
+NumList.sort()
+
+# 4. M 입력
+M = int(input())
+
+# 5. M개의 정수 입력받아 target에 저장
+target_list = list(map(int, input().split()))
+
+# 6. 이진 탐색
+for i in range(M):
+    target = target_list[i]
+
+    start = 0
+    end = N - 1
+
+    is_exist = 0
+
+    while start <= end:
+        mid_idx = (start + end) // 2
+        mid_val = NumList[mid_idx]
+
+        #  mid 값보다 큰 곳에서 target 찾아야 함
+        if mid_val < target:
+            start = mid_idx + 1
+        # mid 값보다 작은 곳에서 target 찾아야 함
+        elif mid_val > target:
+            end = mid_idx - 1
+        # target 찾음
+        else:
+            is_exist = 1
+            break
+
+    # 7. 원하는 답 출력
+    print(is_exist)
+```
