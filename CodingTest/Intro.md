@@ -28,3 +28,10 @@ public class Solution {
     }
 }
 ```
+* 컬랙션 프레임워크 래퍼런스 타입 사용 예 프리미티브 타입 사용법
+```java
+int i = 0;
+long[] longs = new long[10];
+float f = 10.5f;
+double d = 10 / 3.0;
+```
